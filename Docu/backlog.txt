@@ -1,0 +1,26 @@
+Plugin Users - Multi Tenant	
+	Resumen del plugin
+		Se debe desarrollar un plugin que, al activarse, permita acceder a pantallas
+		ABM de sitios y usuarios.
+
+		Deberá tener 2 capas de permisos.
+			Un primer permiso de acceso al sitio. El sitio (actions: edit, delete y view) solo pueden ser accedidas por usuarios que pertenezcan a ese sitio. La prupuesta aqui es que el este permiso se realice en el AppModel.
+			Un segundo permiso, configurable mediante ACL, debe indicar si el rol del usuario, para ese sitio, puede acceder a determinadas actions.
+		
+	
+	estructura "Base de Datos General"
+		Model Site. Table sites{id, installed(default:false) name, alias(unique), country, modules_enabled}
+		Model User. Table users{id, username, password}
+		Model SiteUser. Table sites_users{id, user_id, site_id}
+
+	estructura "Base de Datos Por Sitio"
+		Model Role. Table roles{id, name, alias}
+		Model UserRole. Table sites_users{id, user_id, role_id}
+
+
+	el registro de usuarios no requiere de permisos (es publico)
+	el usuario debe estar registrado y logeado para crear sitios
+	un usuario crea sitios
+	al crear un sitio se deberá crear una nueva base de datos con el nombre del sitio y la estructura "Datos Por Sitio"
+	solo el usuario admin puede ver, editar y modificar roles.
+

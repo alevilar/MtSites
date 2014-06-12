@@ -1,26 +1,64 @@
 Plugin Users - Multi Tenant	
 	Resumen del plugin
-		Se debe desarrollar un plugin que, al activarse, permita acceder a pantallas
-		ABM de sitios y usuarios.
-
-		Deberá tener 2 capas de permisos.
-			Un primer permiso de acceso al sitio. El sitio (actions: edit, delete y view) solo pueden ser accedidas por usuarios que pertenezcan a ese sitio. La prupuesta aqui es que el este permiso se realice en el AppModel.
-			Un segundo permiso, configurable mediante ACL, debe indicar si el rol del usuario, para ese sitio, puede acceder a determinadas actions.
+		Se debe desarrollar un plugin que, al activarse, permita acceder a las pantallas
+		de ABM de los Sitios y los agregue para enrutar
+		Ademas mejora el AuthComponent chequeando usuarios contra sitios
 		
+
+		Debe funcionar con Croogo, para instalar croogo hacer:
+			composer create-project croogo/app app
+			cd app
+			composer install
+
+		configurar el schema de este plugin para tener la estructura de la base de datos corriendo
+
+
 	
-	estructura "Base de Datos General"
-		Model Site. Table sites{id, installed(default:false) name, alias(unique), country, modules_enabled}
-		Model User. Table users{id, username, password}
-		Model SiteUser. Table sites_users{id, user_id, site_id}
+	tareas de programacion a realizar
+		
 
-	estructura "Base de Datos Por Sitio"
-		Model Role. Table roles{id, name, alias}
-		Model UserRole. Table sites_users{id, user_id, role_id}
+		desarrollar archivo routes_sites.php
+			Se deberá realizar un archivo que lea los sitios y las convierta en rutas.
+
+			Ejemplo: Si existe un Sitio cuyo alias sea: "mi_alias", entonces se deberá crear una ruta a:
+			 http://localhost/mi_alias
+			 el comportamiento es similar al routes de cake, tal como hace con los plugins activados. Pero, en este caso, con los alias de los sitios.
+
+		rediseñar/extender o intereceptar algun callback de AuthComponent
+			para que valide, en lugar de solo por username y pass, que lo haga tambien por sitio (si el usuario pertenece al sito)
+		
+		MVC De las tablas con $scaffolded views
+
+		Script creacion de bases de datos x sitio
+			al crear un nuevo sitio se deberá crear una nueva base de datos
+			Detalles del nombre: La base de datos debe tener algun prefijo y el nombre (en alias) del sitio.
+
+			La base de datos es la misma que la aplicion General, o principal, salvo que NO tiene las tablas: users, sites y sites_users. Pero SI tiene las tablas roles, roles_users y las de ACL. Estas tablas deben estar inicializadas de modo tal que el usuario que creó el sitio tenga el rol administrador del mismo.
+
+		Permisos App General
+			el registro de usuarios no requiere de permisos (es publico)
+			el usuario debe estar registrado y logeado para crear sitios
+			un usuario crea sitios
+
+		Permisos Sitio
+			solo el usuario admin puede ver, editar y modificar roles dentro del sitio
 
 
-	el registro de usuarios no requiere de permisos (es publico)
-	el usuario debe estar registrado y logeado para crear sitios
-	un usuario crea sitios
-	al crear un sitio se deberá crear una nueva base de datos con el nombre del sitio y la estructura "Datos Por Sitio"
-	solo el usuario admin puede ver, editar y modificar roles.
 
+	
+
+
+
+Detalles del proceso del enrutamiento, el AuthComponent y la carga de la BD del Sitio
+
+	se debe crear un archivo especial de rutas para la app
+	routes_site.php
+		El objetivo es Bindear el nombre (alias) de cada sitio  existente como una ruta
+
+	El proceso es el siguiente:
+		1) Router lee si existe sitio (similar a como hace con los plugins, ver cake_router)
+		2) Si no existe, pagina no existe
+		3) Si existe, ver si User esta logueado
+		4) Si logueado, ver si User pertenece a Sitio
+		5) Si pertenece, cargar database del sitio (esos datos estarian en tabla sitios)
+		6) Al cargar DB del Sitio, verificar permisos de usuario segun role y ACL

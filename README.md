@@ -1,17 +1,16 @@
 # Sites Plugin
-=====
 
 Multi Tenant Site for multiple Db´s in App
 
 
 *El plugin tiene 3 aristas principales*
 
-- **ABM Sitios** (tabla sites). Permite crear nuevos "sitios". Esos sitios, son simplemente una entidad en la base de datos. Un registro. El sitio tiene, como campos, un nombre y un alias, este ultimo es alfanumerico y servirá para identificarlo mediante la URL. Por ejemplo: creo el Sitio llamado "Alejandro Vilar" cuyo alias es "alevilar".
+- **MVC Sitios** (tabla sites). Permite crear nuevos "sitios". Esos sitios, son simplemente una entidad en la base de datos. Un registro. El sitio tiene, como campos, un nombre y un alias, este ultimo es alfanumerico y servirá para identificarlo mediante la URL. Por ejemplo: creo el Sitio llamado "Alejandro Vilar" cuyo alias es "alevilar".
 Cada sitio puede tener una cantidad indefinida de usuarios vinculados a él.
 
-- **Enrutador** routes_sites.php. Maneja las rutas de Cake haciendo que los sitios sean accesibles mediante URL. Siguiendo con el ejemplo, mi sitio ahora podria ser accedido si voy a la url: http://localhost/alevilar
+- **Enrutador** (* archivo routes_sites.php*). Maneja las rutas de Cake haciendo que los sitios sean accesibles mediante URL. Siguiendo con el ejemplo, mi sitio ahora podria ser accedido si voy a la url: http://localhost/alevilar
 
-- **Auth** Si otro usuario quiere ir a mi sitio. Deberia aparecerle "acceso denegado". Cada usuario solo puede ingresar al sitio que le pertenece.
+- **Autenticacipon basada en username, pass y sitio** (*customizar AuthComponent para que lea esos 3 atributos*) Si otro usuario quiere ir a mi sitio. Deberia aparecerle "acceso denegado". Cada usuario solo puede ingresar al sitio que le pertenece.
 
 
 ## Reqs & instalacion

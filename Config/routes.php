@@ -1,1 +1,5 @@
-routes.php
+<?php
+
+/**
+ *  Routes for sites logic
+ */

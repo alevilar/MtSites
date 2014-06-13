@@ -1,64 +1,45 @@
-Plugin Users - Multi Tenant	
-	Resumen del plugin
-		Se debe desarrollar un plugin que, al activarse, permita acceder a las pantallas
-		de ABM de los Sitios y los agregue para enrutar
-		Ademas mejora el AuthComponent chequeando usuarios contra sitios
+
+Tareas de programacion a realizar
 		
 
-		Debe funcionar con Croogo, para instalar croogo hacer:
-			composer create-project croogo/app app
-			cd app
-			composer install
-
-		configurar el schema de este plugin para tener la estructura de la base de datos corriendo
-
-
-	
-	tareas de programacion a realizar
-		
-
-		desarrollar archivo routes_sites.php
+	Archivo routes_sites.php
 			Se deberá realizar un archivo que lea los sitios y las convierta en rutas.
 
 			Ejemplo: Si existe un Sitio cuyo alias sea: "mi_alias", entonces se deberá crear una ruta a:
 			 http://localhost/mi_alias
 			 el comportamiento es similar al routes de cake, tal como hace con los plugins activados. Pero, en este caso, con los alias de los sitios.
 
-		rediseñar/extender o intereceptar algun callback de AuthComponent
-			para que valide, en lugar de solo por username y pass, que lo haga tambien por sitio (si el usuario pertenece al sito)
+	Levantar datasource basado en el sitio actual. 			
+			Esto quiere decir, que, basandose en el sitio que fue ruteado, se debe levantar como y colocar como default datasource a la base de datos del sitio.
+
+	AuthComponent
+			En lugar de solo validar por username y password, que lo haga tambien por sitio (si el usuario pertenece al sito)
 		
-		MVC De las tablas con $scaffolded views
+	MVC De la tabla sites con $scaffolded views
+			El usuario que crea un sitio, se convierte en administrador del mismo. Esto quiere decir que al crear un sitio, se debe setear el usuario en la tabla sites_users (BD general) y en la tabla roles_users (particular a un sitio) se debe colocar como rol admin
 
-		Script creacion de bases de datos x sitio
-			al crear un nuevo sitio se deberá crear una nueva base de datos
-			Detalles del nombre: La base de datos debe tener algun prefijo y el nombre (en alias) del sitio.
+	Script creacion de bases de datos x sitio
+			Al crear un nuevo sitio se deberá migrar y crear una nueva base de datos
+			Lo mejor seria que se utilice un schema de cake. Pero por ahora tambien seria valido tirar un puro SQL.
 
-			La base de datos es la misma que la aplicion General, o principal, salvo que NO tiene las tablas: users, sites y sites_users. Pero SI tiene las tablas roles, roles_users y las de ACL. Estas tablas deben estar inicializadas de modo tal que el usuario que creó el sitio tenga el rol administrador del mismo.
-
-		Permisos App General
+	Permisos App General
 			el registro de usuarios no requiere de permisos (es publico)
 			el usuario debe estar registrado y logeado para crear sitios
 			un usuario crea sitios
 
-		Permisos Sitio
+	Permisos Sitio
 			solo el usuario admin puede ver, editar y modificar roles dentro del sitio
 
 
 
 	
 
-
-
-Detalles del proceso del enrutamiento, el AuthComponent y la carga de la BD del Sitio
-
-	se debe crear un archivo especial de rutas para la app
-	routes_site.php
-		El objetivo es Bindear el nombre (alias) de cada sitio  existente como una ruta
+Detalles para comprender el proceso del enrutamiento, el AuthComponent y la carga de la BD del Sitio
 
 	El proceso es el siguiente:
-		1) Router lee si existe sitio (similar a como hace con los plugins, ver cake_router)
-		2) Si no existe, pagina no existe
+		1) Router lee si existe sitio, o mejor dicho, carga todos los sitios al enrutador.
+		2) Cuando viene peticion, si no existe sitio, devolver: pagina no existe
 		3) Si existe, ver si User esta logueado
 		4) Si logueado, ver si User pertenece a Sitio
-		5) Si pertenece, cargar database del sitio (esos datos estarian en tabla sitios)
-		6) Al cargar DB del Sitio, verificar permisos de usuario segun role y ACL
+		5) Si pertenece, levantar database del sitio como default datasource
+		6) Al cargar DB del Sitio, verificar permisos de usuario segun rol y ACL

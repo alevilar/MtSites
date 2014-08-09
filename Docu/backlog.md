@@ -1,3 +1,30 @@
+TAREAS EN PROCESO
+
+        - Ponerle nombre a los sitios y a las sucursales
+        - Logica de los archivos: como almacenar archivos del core y de cada usuario
+        - Definir base de datos para sitio generico
+        - Definir base de datos para sucursales
+        - Definir implementacion de ACL y  permisos para sucursales
+        - Definir implementacion ACL y  permisos para sitios
+
+
+
+
+
+Definir estructura:	
+	- Ponerle nombre a los sitios y a las sucursales
+	- Logica de los archivos: como almacenar archivos del core y de cada usuario
+	- Definir base de datos para sitio generico
+	- Definir base de datos para sucursales
+	- Definir implementacion de ACL y  permisos para sucursales
+	- Definir implementacion ACL y  permisos para sitios
+	- crear sitio: usuario, contraseña y nombre del comercio. El usuario sera el nombre del sitio, y el nombre del comercio será la 1er sucursal
+	- automatizar instalacion nuevo sitio
+
+
+
+
+
 
 Tareas de programacion a realizar
 		

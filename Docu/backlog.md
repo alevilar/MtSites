@@ -1,14 +1,43 @@
 TAREAS EN PROCESO
 
-        - Ponerle nombre a los sitios y a las sucursales
-        - Logica de los archivos: como almacenar archivos del core y de cada usuario
+
+	- crear un registro con usuario, contraseña y nombre del sitio
+	- macheo entre usuarios y sus sitios
+	- loguin desde la pagina principal y redireccion a los subdominios
+	- carpeta dentro de files cn el nombre del usuario
+              - Pendiente: 
+              	- Seguridad para que otros usuarios no pueda acceder
+              	- Incluir Plugin Upload.Upload para administrar archivos como attachments
+
         - Definir base de datos para sitio generico
-        - Definir base de datos para sucursales
-        - Definir implementacion de ACL y  permisos para sucursales
-        - Definir implementacion ACL y  permisos para sitios
+              Bd de usuario en cada tenant
+	
+	- script de instalacion:
+		- crear subdominio en apache
+		- establecer permisos ACL del primer usuario
+		- carpeta de usuario en webroot/files
+		- crear BD para tenat
+		- notificar por mail
+		- actualizar tabla principal con usuario y sitio
+	
+	      
+	      
+	- agregar Panel administrativo en sitio 
+        
+        
+        
+       
+
+
+TAREAS REALIZADAS
+	- Investigacion
+		- crear tenants como subdominios de apache
 
 
 
+       
+
+========= 
 
 
 Definir estructura:	

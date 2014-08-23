@@ -1,9 +1,7 @@
 TAREAS EN PROCESO
 
 
-	- crear un registro con usuario, contraseña y nombre del sitio
-	- macheo entre usuarios y sus sitios
-	- loguin desde la pagina principal y redireccion a los subdominios
+	
 	- carpeta dentro de files cn el nombre del usuario
               - Pendiente: 
               	- Seguridad para que otros usuarios no pueda acceder
@@ -13,9 +11,9 @@ TAREAS EN PROCESO
               Bd de usuario en cada tenant
 	
 	- script de instalacion:
-		- crear subdominio en apache
+		- crear subdominio en apache. Ver si se puede hacer con un alias.
 		- establecer permisos ACL del primer usuario
-		- carpeta de usuario en webroot/files
+		- Crear carpeta de usuario en webroot/files
 		- crear BD para tenat
 		- notificar por mail
 		- actualizar tabla principal con usuario y sitio
@@ -30,6 +28,11 @@ TAREAS EN PROCESO
 
 
 TAREAS REALIZADAS
+
+	- crear un registro con usuario, contraseña y nombre del sitio
+	- macheo entre usuarios y sus sitios
+	- loguin desde la pagina principal y redireccion a los subdominios
+
 	- Investigacion
 		- crear tenants como subdominios de apache
 

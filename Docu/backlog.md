@@ -1,4 +1,4 @@
-# TAREAS EN PROCESO
+# Tareas en Proceso
 
 - Investigacion: como hacer que los subdominios sean mas dinamicos en apache (usar como wildcards)
 
@@ -28,7 +28,7 @@ Los siguientes 4 pendientes tienen su descripción detallada al final de este ba
 
  
   
-# TAREAS REALIZADAS
+# Tareas Realizadas
 
 - tareas de Investigacion
   - cargar tenant con su base de datos propia

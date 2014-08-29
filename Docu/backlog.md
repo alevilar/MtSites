@@ -1,6 +1,14 @@
 # TAREAS EN PROCESO
 
-### Plugin Multi Tenant
+- Investigacion: como hacer que los subdominios sean mas dinamicos en apache (usar como wildcards)
+- Crear ModelSites
+- Crear MtSitesBehavior
+- Crear MtSitesAuthorize
+ 
+
+*mas detalles a continuación...*
+
+### Detalles de cada punto en proceso
  
 Investigacion. Definir creacion de subdominios en apache
 
@@ -21,11 +29,12 @@ Crear **MtSitesBehavior**. Alli aplicaremos toda la lógica Multi Tenant que ayu
 Ej: public `$useDbConfig = site_my_nice_paxapos`;
 Cuando el Behavior inicia, se crea, "on the fly", el array de configuracion para el sitio actual utilizando el    metodo  ConnectionManagger::create($name, $configArray)
 
-Para mayor información sobre "ConnectionManagger create" method [ver documentacion Cake:] (http://api.cakephp.org/2.5/class-ConnectionManager.html#_create)
+Para mayor información sobre "ConnectionManagger create" method. 
+[Ver Documentación Cake] (http://api.cakephp.org/2.5/class-ConnectionManager.html#_create)
 
 
-  Crear nuevo **MtSitesComponent** donde se manejará la autorización para acceder a los sitios según al sitio que pertenezcan.
-   [Ver Documentación Cake:](http://book.cakephp.org/2.0/en/core-libraries/components/authentication.html#creating-custom-authorize-objects)
+Crear nuevo **MtSitesAuthorize** donde se manejará la autorización para acceder a los sitios según al sitio que pertenezcan.
+[Ver Documentación Cake](http://book.cakephp.org/2.0/en/core-libraries/components/authentication.html#creating-custom-authorize-objects)
 	
 	
 # Pendientes	

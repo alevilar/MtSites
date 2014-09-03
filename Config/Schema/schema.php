@@ -10,7 +10,7 @@
  * cake schema create sites
  *
  */
-class SitesSchema extends CakeSchema {
+class MtSiteSchema extends CakeSchema {
 
 	public function before($event = array()) {
 		return true;

@@ -37,6 +37,8 @@ class MultiTenantBehavior extends ModelBehavior {
 	public $coreModels = array(
 		'User',
 		'Site',
+		'SiteUser',
+		'Session'
 		);
 
 

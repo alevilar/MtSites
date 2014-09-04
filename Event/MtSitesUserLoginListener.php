@@ -3,6 +3,7 @@
 App::uses('CakeEventListener', 'Event');
 App::uses('Printaitor', 'Printers.Utility');
 App::uses('ReceiptPrint', 'Printers.Utility');
+App::uses('MtSites', 'MtSites.Utility');
 
 
 /**
@@ -28,28 +29,26 @@ class MtSitesUserLoginListener implements CakeEventListener {
 	}
 
 
+
+	
+
+
 	public function onLogin( $event ) {
+		MtSites::load();
 
 		$controller = $event->subject();
-		$current_subdomain = Configure::read('Site.alias');
-			
-        
+
+
+		$current_subdomain = MtSites::getSiteName();
 		$sites = ClassRegistry::init("MtSites.Site")->findFromUser( $controller->Session->read( 'Auth.User.id') );
-
+		
+		$controller->Session->write('MtSites', $sites);
         
-        if ((sizeof($sites) > 1) && in_array($current_subdomain, $sites)) {
-            // Redirect para seleccionar el dominio
-            $fullUrl = array('controller' => 'sites', 'action' => 'index');
-            $controller->redirect( $fullUrl );
-        } 
 
-        if ((sizeof($sites) == 1) && ($current_subdomain != $sites[0] )) {
-            // Redirect al dominio
-            $fullUrl = Configure::read('Site.protocol'). Configure::read('Site.alias') . "." . Configure::read('Site.domain');
-            $controller->redirect( $fullUrl );
-        }
-
-						
+        // verifico si el usuario esta logueado y esta en la app core, entonces lo redirige a su tenant
+		if ( !MtSites::isTenant() ) {
+			$controller->Auth->loginRedirect = MtSites::getUserDefaultSiteUrl() ;
+		}
 	}
 
 }

@@ -21,6 +21,7 @@
 App::uses('ModelBehavior', 'Model');
 App::uses('AclNode', 'Model');
 App::uses('Hash', 'Utility');
+App::uses('MtSites', 'MtSites.Utility');
 
 /**
  * ACL behavior
@@ -50,8 +51,14 @@ class MultiTenantBehavior extends ModelBehavior {
  * @return void
  */
 	public function setup( Model $model, $config = array() ) {
+
+		// cargar configuracion y dabatase del Sitio Multi Tenant
+        MtSites::loadDatabase();
+
+
+
 		// si son del core usar default
-		if ( in_array( $model->name,  $this->coreModels ) ){		
+		if ( in_array( $model->name,  $this->coreModels ) || !MtSites::isTenant() ){
 			$model->useDbConfig = 'default';	
 		} else {
 			// usar tenant

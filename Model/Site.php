@@ -16,14 +16,32 @@ class Site extends RistoAppModel {
 	//public $hasMany = array('MtSites.SiteUser');
 
 
-	public function hasUser ( $user_id ) {
-		$site = $this->find('first', array(
-				'conditions' => array(
-					'Site.alias' => Configure::read('Site.alias'),
-					),				
-				));
-		$users = Hash::extract($site, 'User.{n}.id');
-		return in_array($user_id, $users);
+	public function hasUser ( $site_alias, $user_id ) {
+		$this->User->bindModel(
+	        array('hasAndBelongsToMany' => array(
+	                'Site' => array(
+	                    'className' => 'MtSites.Site'
+	                )
+	            )
+	        )
+	    );
+
+
+	    $sites = $this->User->find('first', array(
+	    		'conditions' => array(
+	    			'User.id' => $user_id
+	    			),
+	    		'contain' => array(
+	    			'Site' => array(
+	    				'conditions' => array(
+	    					'Site.alias' => $site_alias
+	    					)
+	    				)
+	    		)
+	    	));
+
+
+		return !empty($sites['Site']);
 
 	}
 

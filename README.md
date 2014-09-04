@@ -1,34 +1,17 @@
 # Sites Plugin
 
-Multi Tenant Site for multiple Db´s in App
+Multi Tenant Site for multiple Db´s in same App for Ristorantino Mágico
 
 
-*El plugin tiene 3 aristas principales*
 
-- **MVC Sitios** (tabla sites). Permite crear nuevos "sitios". Esos sitios, son simplemente una entidad en la base de datos. Un registro. El sitio tiene, como campos, un nombre y un alias, este ultimo es alfanumerico y servirá para identificarlo mediante la URL. Por ejemplo: creo el Sitio llamado "Alejandro Vilar" cuyo alias es "alevilar".
-Cada sitio puede tener una cantidad indefinida de usuarios vinculados a él.
+ - *bootstrap.php*. Es donde se cargan los archivos de configuracion del sitio (settings.ini). Tambien agrega el evento para escuchar "on User.login"
 
-- **Enrutador** (* archivo routes_sites.php*). Maneja las rutas de Cake haciendo que los sitios sean accesibles mediante URL. Siguiendo con el ejemplo, mi sitio ahora podria ser accedido si voy a la url: http://localhost/alevilar
+ - *Event/MtSitesUserLoginListener*. Es para escuchar eventos despues del login
 
-- **Autenticacipon basada en username, pass y sitio** (*customizar AuthComponent para que lea esos 3 atributos*) Si otro usuario quiere ir a mi sitio. Deberia aparecerle "acceso denegado". Cada usuario solo puede ingresar al sitio que le pertenece.
+ - *MtSitesComponent* es para validar que el usuario tenga permisos para acceder y manejar redirecciones dependiendo donde estoy. Es como una especie de AuthComponent
 
+  - *MultiTenantBehavior* es para decirle a cada Model la base de datos que debe usar. En base a si el Model es tenant o no. Se configuran los Models del core aqui para que no sean leidos como "tenants".
 
-## Reqs & instalacion
+ - *Utility.MtSites* es una libreria de funciones para manejar la logica Multi Tenant. Nos permite, por ejemplo saber si estoy en un tenant o en el dominio global.
+'''Ej: MtSites::isTenant()'''
 
-Se necesita tener Croogo instalado y funcionando
-https://github.com/croogo/croogo
-para instalar croogo hacer:
-	composer create-project croogo/app app
-	cd app
-	composer install
-
-luego, migrar el schema de este plugin para tener la estructura de la base de datos
-"cake schema create sites"
-
-
-Luego se debe colocar este plugin dentro de la carpeta app/Plugins
-y cargarlo colocando en 
-app/Config/bootstrap
-
-la siguiente linea: 
-CakePlugin::load('Sites', array('router' => true));

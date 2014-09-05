@@ -55,13 +55,12 @@ class Site extends RistoAppModel {
 	        )
 	    );
 
-
 	    $sites = $this->User->find('first', array(
 	    		'conditions' => array(
 	    			'User.id' => $user_id
 	    			),
 	    		'contain' => array(
-	    			'Site'
+	    			'Site',
 	    		)
 	    	));
 

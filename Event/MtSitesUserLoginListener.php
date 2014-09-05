@@ -39,10 +39,9 @@ class MtSitesUserLoginListener implements CakeEventListener {
 
 		$controller = $event->subject();
 
-		$sites = ClassRegistry::init("MtSites.Site")->findFromUser( $controller->Session->read( 'Auth.User.id') );
-		
+		// ad sites 
+		$sites = ClassRegistry::init("MtSites.Site")->findFromUser( $controller->Session->read( 'Auth.User.id') );		
 		$controller->Session->write('Auth.User.Sites', $sites);
-        
 
         // verifico si el usuario esta logueado y esta en la app core, entonces lo redirige a su tenant
 		if ( !MtSites::isTenant() ) {

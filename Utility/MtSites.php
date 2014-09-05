@@ -74,7 +74,7 @@ class MtSites {
 	public static function getUserDefaultSiteUrl ( $user_id = null) {
 		$siteName = self::getUserSiteName();
 		if ( $siteName ) {
-			return Configure::read('Site.protocol') . $siteName. "." . Configure::read('Site.domain');
+			return Configure::read('Site.protocol') . $siteName. "." . Configure::read('Site.domain') . '/dashboard';
 		} 
 		return null;
 	}
@@ -83,13 +83,18 @@ class MtSites {
 	 * Return the first site from array from of Auth user
 	 */
 	public static function getUserSiteName () {
-		$sites = CakeSession::read('MtSites');
-		$sitealias = Hash::extract($sites, '{n}.alias');
-		$res = false;
-		if ( count($sitealias) ) {
-			$res = $sitealias[0];
+
+		if (CakeSession::check('MtSites')) {			
+			$sites = CakeSession::read('MtSites');		
+			$sitealias = Hash::extract($sites, '{n}.alias');
+			$res = false;
+			if ( count($sitealias) ) {
+				$res = $sitealias[0];
+			}
+			return $res;	
+		} else {
+			return null;
 		}
-		return $res;	
 	}
 
 	/**

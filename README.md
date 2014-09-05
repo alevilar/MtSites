@@ -8,7 +8,7 @@ Multi Tenant Site for multiple Db´s in same App for Ristorantino Mágico
 
  - *Event/MtSitesUserLoginListener*. Es para escuchar eventos despues del login
 
- - *MtSitesComponent* es para validar que el usuario tenga permisos para acceder y manejar redirecciones dependiendo donde estoy. Es como una especie de AuthComponent
+ - *MtSitesAuthorized* es para validar que el usuario tenga permisos para acceder y manejar redirecciones dependiendo donde estoy. Redefine el metodo authorized()
 
   - *MultiTenantBehavior* es para decirle a cada Model la base de datos que debe usar. En base a si el Model es tenant o no. Se configuran los Models del core aqui para que no sean leidos como "tenants".
 

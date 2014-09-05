@@ -69,12 +69,21 @@ class MtSites {
 
 
 	/**
+	 *
+	 *	Returns Full URL  from site
+	 *
+	 */
+	public static function urlFromSite( $siteName ) {
+		return Configure::read('Site.protocol') . $siteName. "." . Configure::read('Site.domain') . '/dashboard';
+	}
+
+	/**
 	 * Return the url of the first site founded from array from of Auth user
 	 */
 	public static function getUserDefaultSiteUrl ( $user_id = null) {
 		$siteName = self::getUserSiteName();
 		if ( $siteName ) {
-			return Configure::read('Site.protocol') . $siteName. "." . Configure::read('Site.domain') . '/dashboard';
+			return self::urlFromSite( $siteName );
 		} 
 		return null;
 	}
@@ -132,10 +141,15 @@ class MtSites {
 	 * Sets database to $config DATABASE named 'tenant' in database.php
 	 */
 	public static function loadDatabase () {
+
+		$cons = ConnectionManager::enumConnectionObjects();
 		App::uses('ConnectionManager', 'Model');
-		if ( !empty( ConnectionManager::$config ) ) {
-			$databaseName = ConnectionManager::$config->tenant['database_prefix'] . self::getSiteName();
+		if ( !empty( $cons ) && array_key_exists('tenant', $cons) ) {
+			$databaseName =  $cons['tenant']['database_prefix'] . self::getSiteName();
 			ConnectionManager::$config->tenant['database'] = $databaseName;
+		} else {
+			throw new CakeException("Archivo database.php mal configurado o falta el datasource llamado 'tenant' ademas del default");
+			
 		}
 	}
 }

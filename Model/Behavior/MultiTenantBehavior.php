@@ -56,7 +56,6 @@ class MultiTenantBehavior extends ModelBehavior {
         MtSites::loadDatabase();
 
 
-
 		// si son del core usar default
 		if ( in_array( $model->name,  $this->coreModels ) || !MtSites::isTenant() ){
 			$model->useDbConfig = 'default';	

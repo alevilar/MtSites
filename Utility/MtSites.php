@@ -32,7 +32,7 @@ class MtSites {
 	* Ej: http://example.com => false
 	* Ej: http://tenant1.example.com => true
 	**/
-	public static function isTenant () {
+	public static function isTenant () {		
 		if ( self::getSiteName() ) {
 			return true;
 		}
@@ -109,12 +109,17 @@ class MtSites {
 	/**
 	 * Get site name from current URL
 	 * if is not a tenant return false
+	 * 
 	 */
 	public static function getSiteName () {
 		if ( env('SERVER_NAME') ) {
 			$servername = env('SERVER_NAME');
 
-			if( isset($servername ) ){
+			if ( strpos('.',$servername) === false  ){
+				// Ej: http://localhost
+				return $servername;
+			} elseif( isset($servername )){
+				// get domain and subdomain if is tenant
 				preg_match('/(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i', $servername, $match);
 				if ( !empty( $match ) && !empty($match[1])) {
 					return $match[1];

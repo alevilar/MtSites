@@ -1,9 +1,17 @@
 # Tareas en Proceso
 
-- Investigacion: como hacer que los subdominios sean mas dinamicos en apache (usar como wildcards)
 
  
 # Pendientes
+
+
+- resolver bugs
+
+ 
+  
+# Tareas Realizadas
+
+- Investigacion: como hacer que los subdominios sean mas dinamicos en apache (usar como wildcards). Se logro pero hay que tocar el archivo hosts
 
 Los siguientes 4 pendientes tienen su descripción detallada al final de este backlog, bajo el titulo de **"Anexo I"**
 - Usar Sessions para guardar datos del sitio actual.
@@ -26,9 +34,6 @@ Los siguientes 4 pendientes tienen su descripción detallada al final de este ba
 - agregar Panel administrativo en sitio
 - automatizar instalacion nuevo sitio
 
- 
-  
-# Tareas Realizadas
 
 - tareas de Investigacion
   - cargar tenant con su base de datos propia

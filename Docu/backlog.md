@@ -1,11 +1,29 @@
 # Tareas en Proceso
 
 
+- testing y resolver bugs
+
+
+- Hacer que el Plugin MultiTenant pueda detectar un tenant usando los parametros de la url, mediante Routes.  
+Asi como Cake detecta un plugin, controller y action, seria buenisimo si existiese la forma de agregarle el sitio. Por ejemplo, encontré que algo "similar" a esto es cuando se usa el "lang"
+por ejemplo, para http://example.com/en/users/
+
+ {{{
+ * Router::connect(
+ *   '/:lang/:controller/:action/:id',
+ *   array(),
+ *   array('id' => '[0-9]+', 'lang' => '[a-z]{3}')
+ * );
+ }}}
+
+
+
+
  
 # Pendientes
 
+no hay pendientes registrados
 
-- resolver bugs
 
  
   

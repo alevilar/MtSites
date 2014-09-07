@@ -8,16 +8,17 @@ App::uses('RistoAppController', 'Risto.Controller');
  */
 class SitesController extends RistoAppController {
 
-	public $sfaffold;
+	//public $sfaffold;
 
+	public function beforeFilter () {
+
+		parent::beforeFilter();
+		//$this->Auth->allow(array('index'));
+	}
 
 	public function index () {
-		$user = $this->Auth->getUser();
-		$sites = $this->Site->find('all', array(
-			'conditions' => array(
-				'User.id' => $user['id'];
-				)
-			));
+		$user = $this->Auth->user();
+		$sites = $this->Site->find( "all" );
 
 		$this->set(compact('sites'));
 	}

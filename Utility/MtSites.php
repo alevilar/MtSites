@@ -25,86 +25,13 @@ class MtSites {
 
 
 
-
-	/**
-	* checks from current URL
-	* returns true if is Tenant or false is in core domain
-	* Ej: http://example.com => false
-	* Ej: http://tenant1.example.com => true
-	**/
-	public static function isTenant () {		
-		if ( self::getSiteName() ) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	*
-	* returns main core domain URL full.  from current URL
-	* Ej: http://example.com
-	**/
-	public static function domainUrl() {
-		return Configure::read('Site.protocol') .  Configure::read('Site.domain');
-	}
-
-
-	/**
-	*
-	* returns main core domain URL full.  from current URL
-	* Ej: http://tenant1.example.com
-	**/
-	public static function tenantUrl() {
-		return Configure::read('Site.protocol') . self::getSiteName() . "." . Configure::read('Site.domain');
-	}
-
-
 	public static function load () {
-		if ( !self::$load ) {
-			self::loadConfigFiles();
-			self::loadDatabase();
-		}
-		self::$load = true;
+		self::loadConfigFiles();
+		self::loadDatabase();
 	}
 
 
-	/**
-	 *
-	 *	Returns Full URL  from site
-	 *
-	 */
-	public static function urlFromSite( $siteName ) {
-		return Configure::read('Site.protocol') . $siteName. "." . Configure::read('Site.domain') . '/dashboard';
-	}
 
-	/**
-	 * Return the url of the first site founded from array from of Auth user
-	 */
-	public static function getUserDefaultSiteUrl ( $user_id = null) {
-		$siteName = self::getUserSiteName();
-		if ( $siteName ) {
-			return self::urlFromSite( $siteName );
-		} 
-		return null;
-	}
-
-	/**
-	 * Return the first site from array from of Auth user
-	 */
-	public static function getUserSiteName () {
-
-		if (CakeSession::check('MtSites')) {			
-			$sites = CakeSession::read('MtSites');		
-			$sitealias = Hash::extract($sites, '{n}.alias');
-			$res = false;
-			if ( count($sitealias) ) {
-				$res = $sitealias[0];
-			}
-			return $res;	
-		} else {
-			return null;
-		}
-	}
 
 	/**
 	 * Get site name from current URL
@@ -112,21 +39,7 @@ class MtSites {
 	 * 
 	 */
 	public static function getSiteName () {
-		if ( env('SERVER_NAME') ) {
-			$servername = env('SERVER_NAME');
-
-			if ( strpos('.',$servername) === false  ){
-				// Ej: http://localhost
-				return $servername;
-			} elseif( isset($servername )){
-				// get domain and subdomain if is tenant
-				preg_match('/(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i', $servername, $match);
-				if ( !empty( $match ) && !empty($match[1])) {
-					return $match[1];
-				}
-			}
-		}
-		return false;	
+		return CakeSession::read('MtSites.current');	
 	}
 
 	/**
@@ -138,7 +51,9 @@ class MtSites {
 			App::uses('IniReader', 'Configure');
 			Configure::config('ini', new IniReader( TENANT_PATH . DS . self::getSiteName() . DS ));				
 			Configure::load( 'settings', 'ini');
-		}		
+		}	else {
+			throw new CakeException("El archivo de configuracion para el sitio ". self::getSiteName(). " no pudo ser encontrado");
+		}	
 	}
 
 

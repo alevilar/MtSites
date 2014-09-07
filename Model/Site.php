@@ -45,16 +45,13 @@ class Site extends RistoAppModel {
 
 	}
 
-	public function findFromUser ( $user_id ) {
-		$this->User->bindModel(
-	        array('hasAndBelongsToMany' => array(
-	                'Site' => array(
-	                    'className' => 'MtSites.Site'
-	                )
-	            )
-	        )
-	    );
 
+	/**
+	 *  Me devuelve todos los sitios del usuario
+	 * @param int $id UserId
+	 */	
+	public function fromUser ( $user_id ) {
+		
 	    $sites = $this->User->find('first', array(
 	    		'conditions' => array(
 	    			'User.id' => $user_id

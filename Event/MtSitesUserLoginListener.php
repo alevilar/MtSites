@@ -23,29 +23,21 @@ class MtSitesUserLoginListener implements CakeEventListener {
 		return array(
 			'User.afterLogin' => array(
 				'callable' => 'onLogin',
-				//'passParams' => true,
 			),			
 		);
 	}
-
-
-
 	
 
 
 	public function onLogin( $event ) {
-		// levantar settings y base de datos del usuario y del sitio tenant
-		MtSites::load();
-
 		$controller = $event->subject();
 
-		// ad sites 
-		$sites = ClassRegistry::init("MtSites.Site")->findFromUser( $controller->Session->read( 'Auth.User.id') );		
-		$controller->Session->write('Auth.User.Sites', $sites);
+		// guardar los Sites en la sesion del usuario	
+		$sites = ClassRegistry::init("MtSites.Site")->fromUser( $controller->Session->read( 'Auth.User.id') );	
+		$controller->Session->write('Auth.User.Sites',  $sites);
 
-        // verifico si el usuario esta logueado y esta en la app core, entonces lo redirige a su tenant
-		if ( !MtSites::isTenant() ) {
-			$controller->Auth->loginRedirect = MtSites::getUserDefaultSiteUrl() ;
+		if ( count($sites) == 1 ) {
+			$controller->Auth->loginRedirect = array('tenant'=> $sites[0]['alias'], 'plugin'=>'risto', 'controller'=>'pages', 'action' => 'display', 'dashboard');
 		}
 	}
 

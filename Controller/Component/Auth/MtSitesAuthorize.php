@@ -49,8 +49,8 @@ class MtSitesAuthorize extends BaseAuthorize {
  * @return bool
  */
 	public function authorize($user, CakeRequest $request) {
-		
-		if ( !MtSites::isTenant() ) {
+
+		if ( !array_key_exists('tenant', $request->params) && empty($request->params['tenant']) ){
 			// es pagina global. O sea, no estoy dentro del tenant
 			return true;
 		}
@@ -62,11 +62,15 @@ class MtSitesAuthorize extends BaseAuthorize {
         }
 
 
+        // listar sitios del la variable de sesion del usuario actual
         $siteAlias = Hash::extract( $user['Sites'], '{n}.alias' );
-
-        if ( in_array( MtSites::getSiteName(), $siteAlias ) ) {
+        if ( in_array( $request->params['tenant'], $siteAlias ) ) {
+        	// si el usuario tiene, entre sus sitios al sitio actual, entonces esta autorizado
+        	CakeSession::write('MtSites.current',  $request->params['tenant']  );
+        	MtSites::load();
         	return true;
         }
+
 
 		return false;
 	}

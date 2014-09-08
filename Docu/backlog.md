@@ -4,10 +4,9 @@
 - hacer que se cargue el Rol del usuario en la variable de sesion "MtSites.current_role" con el valor Rol.machine_name (esta tabla es levantada solo en los tenants)
 
 
-
-
-
-
+- arreglar rutas
+  - por un lado hay que hacer que todas sean hechas con array (forma cake) y no un string.
+  - por otro lado hay que hacer que el :tenant sea parmanente durante la navegacion
 
 
  

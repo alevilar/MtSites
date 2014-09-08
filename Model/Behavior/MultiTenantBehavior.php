@@ -50,13 +50,33 @@ class MultiTenantBehavior extends ModelBehavior {
  */
 	public function setup( Model $model, $config = array() ) {
 		
-		// si son del core usar default, caso contrario usar tenant
 		if ( in_array( $model->name,  $this->coreModels ) ){
+			// si son del core usar default
 			$model->useDbConfig = 'default';	
 		} else {
-			// usar tenant
-			$model->useDbConfig = 'tenant';	
-		}
+			// usar el correspondiente al tenant
+			$currentTenant = CakeSession::read('MtSites.current');
+			if ( !empty($currentTenant) ) {
+
+				// listar sources actuales
+				$sources = ConnectionManager::enumConnectionObjects();
+
+				//copiar del default
+				$tenantConf = $sources['default'];
+
+				// colocar el nombre de la base de datos
+				$tenantConf['database'] = Configure::read('tenant_db_prefix') . $currentTenant;
+
+				// crear la conexion con la bd
+				$confName = 'tenant_'.$currentTenant;
+				ConnectionManager::create( $confName, $tenantConf );
+
+				// usar tenant para este model
+				$model->useDbConfig = $confName;	
+			} else {
+				throw new MissingConnectionException("Se esta queriendo acceder a un Modelo Tenant, pero no estoy en un Tenant");
+			}
+		}		
 		return true;
 	}
 }

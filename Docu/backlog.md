@@ -1,20 +1,11 @@
 # Tareas en Proceso
 
 
-- testing y resolver bugs
+- hacer que se cargue el Rol del usuario en la variable de sesion "MtSites.current_role" con el valor Rol.machine_name (esta tabla es levantada solo en los tenants)
 
 
-- Hacer que el Plugin MultiTenant pueda detectar un tenant usando los parametros de la url, mediante Routes.  
-Asi como Cake detecta un plugin, controller y action, seria buenisimo si existiese la forma de agregarle el sitio. Por ejemplo, encontré que algo "similar" a esto es cuando se usa el "lang"
-por ejemplo, para http://example.com/en/users/
 
- {{{
- * Router::connect(
- *   '/:lang/:controller/:action/:id',
- *   array(),
- *   array('id' => '[0-9]+', 'lang' => '[a-z]{3}')
- * );
- }}}
+
 
 
 
@@ -28,6 +19,20 @@ no hay pendientes registrados
  
   
 # Tareas Realizadas
+
+
+-- Hacer que el Plugin MultiTenant pueda detectar un tenant usando los parametros de la url, mediante Routes.  
+Asi como Cake detecta un plugin, controller y action, seria buenisimo si existiese la forma de agregarle el sitio. Por ejemplo, encontré que algo "similar" a esto es cuando se usa el "lang"
+por ejemplo, para http://example.com/en/users/
+
+ {{{
+ * Router::connect(
+ *   '/:lang/:controller/:action/:id',
+ *   array(),
+ *   array('id' => '[0-9]+', 'lang' => '[a-z]{3}')
+ * );
+ }}}
+
 
 - Investigacion: como hacer que los subdominios sean mas dinamicos en apache (usar como wildcards). Se logro pero hay que tocar el archivo hosts
 

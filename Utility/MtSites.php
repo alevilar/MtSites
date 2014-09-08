@@ -27,7 +27,6 @@ class MtSites {
 
 	public static function load () {
 		self::loadConfigFiles();
-		self::loadDatabase();
 	}
 
 
@@ -41,6 +40,7 @@ class MtSites {
 	public static function getSiteName () {
 		return CakeSession::read('MtSites.current');	
 	}
+	
 
 	/**
 	 * Loads settings files from Tenant folder 
@@ -56,20 +56,4 @@ class MtSites {
 		}	
 	}
 
-
-	/**
-	 * Sets database to $config DATABASE named 'tenant' in database.php
-	 */
-	public static function loadDatabase () {
-
-		$cons = ConnectionManager::enumConnectionObjects();
-		App::uses('ConnectionManager', 'Model');
-		if ( !empty( $cons ) && array_key_exists('tenant', $cons) ) {
-			$databaseName =  $cons['tenant']['database_prefix'] . self::getSiteName();
-			ConnectionManager::$config->tenant['database'] = $databaseName;
-		} else {
-			throw new CakeException("Archivo database.php mal configurado o falta el datasource llamado 'tenant' ademas del default");
-			
-		}
-	}
 }

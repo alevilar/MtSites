@@ -65,7 +65,7 @@ class MultiTenantBehavior extends ModelBehavior {
 				$tenantConf = $sources['default'];
 
 				// colocar el nombre de la base de datos
-				$tenantConf['database'] = Configure::read('tenant_db_prefix') . $currentTenant;
+				$tenantConf['database'] = $tenantConf['database'] ."_". $currentTenant;
 
 				// crear la conexion con la bd
 				$confName = 'tenant_'.$currentTenant;

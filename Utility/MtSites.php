@@ -30,6 +30,10 @@ class MtSites {
 	}
 
 
+	public static function  isTenant() {
+		$cur = CakeSession::read('MtSites.current');
+		return (boolean) $cur;
+	}
 
 
 	/**

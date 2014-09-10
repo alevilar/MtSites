@@ -56,14 +56,14 @@ class MtSitesAuthorize extends BaseAuthorize {
 	}
 
       
-        if ( !array_key_exists('Sites', $user) ) {
+        if ( !array_key_exists('Site', $user) ) {
         	// el usuario no tiene sitios asignados. No puede entrar a ningun lado
         	return false;	
         }
 
 
         // listar sitios del la variable de sesion del usuario actual
-        $siteAlias = Hash::extract( $user['Sites'], '{n}.alias' );
+        $siteAlias = Hash::extract( $user['Site'], '{n}.alias' );
         if ( in_array( $request->params['tenant'], $siteAlias ) ) {
         	// si el usuario tiene, entre sus sitios al sitio actual, entonces esta autorizado        	        	
         	return true;

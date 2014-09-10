@@ -30,6 +30,13 @@ class MtSites {
 	}
 
 
+	public static function loadSessionData () {
+		$User = ClassRegistry::init('Users.User');
+		$user = $User->read(null, CakeSession::read('Auth.User.id'));
+		CakeSession::write('Auth.User.Site', $user['Site']);
+	}
+
+
 	public static function  isTenant() {
 		$cur = CakeSession::read('MtSites.current');
 		return (boolean) $cur;

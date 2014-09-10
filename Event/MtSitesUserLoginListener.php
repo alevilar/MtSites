@@ -33,11 +33,15 @@ class MtSitesUserLoginListener implements CakeEventListener {
 		$controller = $event->subject();
 
 		// guardar los Sites en la sesion del usuario	
-		$sites = ClassRegistry::init("MtSites.Site")->fromUser( $controller->Session->read( 'Auth.User.id') );	
-		$controller->Session->write('Auth.User.Sites',  $sites);
+//		$sites = ClassRegistry::init("MtSites.Site")->fromUser( $controller->Session->read( 'Auth.User.id') );	
+//		$controller->Session->write('Auth.User.Site',  $sites);
 
 		if ( count($sites) == 1 ) {
 			$controller->Auth->loginRedirect = array('tenant'=> $sites[0]['alias'], 'plugin'=>'risto', 'controller'=>'pages', 'action' => 'display', 'dashboard');
+		}
+
+		if ( count($sites) == 0 ) {
+			$controller->Auth->loginRedirect = array( 'plugin'=>'install', 'controller'=>'site_setup', 'action' => 'installsite');
 		}
 	}
 

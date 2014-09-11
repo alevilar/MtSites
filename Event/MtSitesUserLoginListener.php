@@ -33,7 +33,7 @@ class MtSitesUserLoginListener implements CakeEventListener {
 		$controller = $event->subject();
 
 		// guardar los Sites en la sesion del usuario	
-//		$sites = ClassRegistry::init("MtSites.Site")->fromUser( $controller->Session->read( 'Auth.User.id') );	
+		$sites = ClassRegistry::init("MtSites.Site")->fromUser( $controller->Session->read( 'Auth.User.id') );	
 //		$controller->Session->write('Auth.User.Site',  $sites);
 
 		if ( count($sites) == 1 ) {

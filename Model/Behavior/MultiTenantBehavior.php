@@ -38,6 +38,8 @@ class MultiTenantBehavior extends ModelBehavior {
 		'User',
 		'Site',
 		'SiteUser',
+		'SiteSetup',
+		'Install',
 		);
 
 

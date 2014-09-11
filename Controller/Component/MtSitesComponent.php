@@ -20,6 +20,8 @@ class MtSitesComponent extends Component {
 			CakeSession::write('MtSites.current', $this->request->params['tenant'] );
         	MtSites::load();
         	return true;
+        } else {
+        	CakeSession::write('MtSites.current', null );
         }
 	}
 }

@@ -39,6 +39,7 @@ class MultiTenantBehavior extends ModelBehavior {
 		'Site',
 		'SiteUser',
 		'SiteSetup',
+		'SocialProfile',
 		'Install',
 		);
 

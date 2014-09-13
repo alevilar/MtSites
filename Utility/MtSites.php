@@ -32,6 +32,7 @@ class MtSites {
 
 	public static function loadSessionData () {
 		$User = ClassRegistry::init('Users.User');
+		$User->recursive = 1;
 		$user = $User->read(null, CakeSession::read('Auth.User.id'));
 		CakeSession::write('Auth.User.Site', $user['Site']);
 	}

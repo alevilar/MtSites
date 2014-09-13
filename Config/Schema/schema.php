@@ -34,8 +34,8 @@ class MtSiteSchema extends CakeSchema {
 
 	public $sites_users = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
-		'site_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'site_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
+		'user_id' => array('type' => 'string', 'length' => 36, 'null' => false, 'default' => null),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(

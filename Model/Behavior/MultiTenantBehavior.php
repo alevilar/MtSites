@@ -51,7 +51,6 @@ class MultiTenantBehavior extends ModelBehavior {
  * @return void
  */
 	public function setup( Model $model, $config = array() ) {
-		
 		if ( in_array( $model->name,  $this->coreModels ) ){
 			// si son del core usar default
 			$model->useDbConfig = 'default';	
@@ -76,7 +75,7 @@ class MultiTenantBehavior extends ModelBehavior {
 				// usar tenant para este model
 				$model->useDbConfig = $confName;	
 			} else {
-				throw new MissingConnectionException("Se esta queriendo acceder a un Modelo Tenant, pero no estoy en un Tenant");
+				throw new MissingConnectionException(__("Se esta queriendo acceder a un Modelo Tenant (%s), pero no estoy en un Tenant", $model->name));
 			}
 		}		
 		return true;

@@ -21,7 +21,7 @@ class MtSitesUserLoginListener implements CakeEventListener {
  */
 	public function implementedEvents() {
 		return array(
-			'User.afterLogin' => array(
+			'Users.Controller.Users.afterLogin' => array(
 				'callable' => 'onLogin',
 			),			
 		);

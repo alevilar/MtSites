@@ -33,12 +33,14 @@ class MtSites {
 
 
 	public static function loadTenantRol () {
-		$User = ClassRegistry::init('Users.User');
-		$User->loadRole();
-		$User->contain('Rol');
-		$User->recursive = 1;
-		$user = $User->read(null, CakeSession::read('Auth.User.id'));
-		CakeSession::write('Auth.User.Rol', $user['Rol']);
+		if ( self::isTenant() ) {
+			$User = ClassRegistry::init('Users.User');
+			$User->loadRole();
+			$User->contain('Rol');
+			$User->recursive = 1;
+			$user = $User->read(null, CakeSession::read('Auth.User.id'));
+			CakeSession::write('Auth.User.Rol', $user['Rol']);
+		}
 	}
 
 

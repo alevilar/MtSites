@@ -46,13 +46,17 @@ class MtSites {
 
 	public static function loadSessionData ( $aliasName = null ) {
 		$User = ClassRegistry::init('Users.User');
-		$User->recursive = 1;
-		$user = $User->read(null, CakeSession::read('Auth.User.id'));
-		CakeSession::write('Auth.User', $user['User']);
 		if ( !empty($aliasName) ) {
 			CakeSession::write('MtSites.current', $aliasName);
 			self::loadTenantRol();
+		} else {
+			$User->unBind(array('unbindModel'=> array(
+				'hasAndBelongsToMany' => array('Users.Rol')
+				)));
 		}
+		$User->recursive = 1;
+		$user = $User->read(null, CakeSession::read('Auth.User.id'));
+		CakeSession::write('Auth.User', $user['User']);
 		unset($user['User']);
 		foreach ( $user as $k=>$v) {
 			CakeSession::write("Auth.User.$k", $v);

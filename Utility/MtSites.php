@@ -27,14 +27,34 @@ class MtSites {
 
 	public static function load () {
 		self::loadConfigFiles();
+		self::loadTenantRol();
 	}
 
 
-	public static function loadSessionData () {
+
+	public static function loadTenantRol () {
+		$User = ClassRegistry::init('Users.User');
+		$User->loadRole();
+		$User->contain('Rol');
+		$User->recursive = 1;
+		$user = $User->read(null, CakeSession::read('Auth.User.id'));
+		CakeSession::write('Auth.User.Rol', $user['Rol']);
+	}
+
+
+	public static function loadSessionData ( $aliasName = null ) {
 		$User = ClassRegistry::init('Users.User');
 		$User->recursive = 1;
 		$user = $User->read(null, CakeSession::read('Auth.User.id'));
-		CakeSession::write('Auth.User.Site', $user['Site']);
+		CakeSession::write('Auth.User', $user['User']);
+		if ( !empty($aliasName) ) {
+			CakeSession::write('MtSites.current', $aliasName);
+			self::loadTenantRol();
+		}
+		unset($user['User']);
+		foreach ( $user as $k=>$v) {
+			CakeSession::write("Auth.User.$k", $v);
+		}		
 	}
 
 

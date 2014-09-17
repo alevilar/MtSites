@@ -49,12 +49,8 @@ class MtSites {
 		if ( !empty($aliasName) ) {
 			CakeSession::write('MtSites.current', $aliasName);
 			self::loadTenantRol();
-		} else {
-			$User->unBind(array('unbindModel'=> array(
-				'hasAndBelongsToMany' => array('Users.Rol')
-				)));
 		}
-		$User->recursive = 1;
+		$User->contain('Site');
 		$user = $User->read(null, CakeSession::read('Auth.User.id'));
 		CakeSession::write('Auth.User', $user['User']);
 		unset($user['User']);

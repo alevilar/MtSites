@@ -29,7 +29,7 @@ class Site extends RistoAppModel {
                 'message' => 'El alias debe de tener por lo menos 3 caracteres.'
             ),
             'name_urlvalida' => array(
-                'rule' => 'validateAsURL',
+                'rule' => 'url',
                 'message' => 'El url resultante no sera valido, revise que contenga caracteres validos.'
             )
         )
@@ -39,18 +39,6 @@ class Site extends RistoAppModel {
 	public function aliasConvert ( $text ) {
 		return strtolower( Inflector::slug( $text ) );
 	}
-
-    public function validateAsURL($data)
-    {
-        $alias = $this->aliasConvert($data['name']);
-        $alias_seguro = filter_var($_SERVER['SERVER_NAME']."/".$alias, FILTER_VALIDATE_URL);
-        if ($alias_seguro) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 
 	public function beforeSave( $options = array() ) {
 		$alias = $this->aliasConvert( $this->data['Site']['name'] );

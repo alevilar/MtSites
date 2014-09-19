@@ -13,10 +13,43 @@ class Site extends RistoAppModel {
 		'Users.User'
 		);
 
+    public $validate = array(
+        'name' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'required' => true, 'allowEmpty' => false,
+                'message' => 'Favor de ingresar un alias.'
+            ),
+            'unique_name' => array(
+                'rule' => array('isUnique', 'name'),
+                'message' => 'Este alias ya esta en uso.'
+            ),
+            'name_min' => array(
+                'rule' => array('minLength', '3'),
+                'message' => 'El alias debe de tener por lo menos 3 caracteres.'
+            ),
+            'name_urlvalida' => array(
+                'rule' => 'validateAsURL',
+                'message' => 'El url resultante no sera valido, revise que contenga caracteres validos.'
+            )
+        )
+    );
+
 
 	public function aliasConvert ( $text ) {
 		return strtolower( Inflector::slug( $text ) );
 	}
+
+    public function validateAsURL($data)
+    {
+        $alias = $this->aliasConvert($data['name']);
+        $alias_seguro = filter_var($_SERVER['SERVER_NAME']."/".$alias, FILTER_VALIDATE_URL);
+        if ($alias_seguro) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 	public function beforeSave( $options = array() ) {

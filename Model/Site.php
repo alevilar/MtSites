@@ -1,7 +1,7 @@
 <?php
 
 App::uses('RistoAppModel', 'Risto.Model');
-
+App::uses('Validation', 'Utility');
 
 /**
  * Site Model
@@ -12,6 +12,7 @@ class Site extends RistoAppModel {
 	public $hasAndBelongsToMany = array(
 		'Users.User'
 		);
+
 
     public $validate = array(
         'name' => array(
@@ -29,12 +30,25 @@ class Site extends RistoAppModel {
                 'message' => 'El alias debe de tener por lo menos 3 caracteres.'
             ),
             'name_urlvalida' => array(
-                'rule' => 'url',
+                'rule' => 'checkurl',
                 'message' => 'El url resultante no sera valido, revise que contenga caracteres validos.'
+            )
+        ),
+        'type' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'required' => true, 'allowEmpty' => false,
+                'message' => 'Favor de seleccionar un tipo de sitio.'
             )
         )
     );
 
+    public function checkurl($check)
+    {
+        $check['Site']['name'] = "http://$_SERVER[HTTP_HOST]/".$this->data['Site']['name'];
+
+        return Validation::url($check['Site']['name'],true);
+    }
 
 	public function aliasConvert ( $text ) {
 		return strtolower( Inflector::slug( $text ) );

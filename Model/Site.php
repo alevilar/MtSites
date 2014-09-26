@@ -2,12 +2,14 @@
 
 App::uses('RistoAppModel', 'Risto.Model');
 App::uses('Validation', 'Utility');
-
+App::uses('Folder', 'Utility');
 /**
  * Site Model
  *
  */
 class Site extends RistoAppModel {
+
+    private  $info;
 
 	public $hasAndBelongsToMany = array(
 		'Users.User'
@@ -130,4 +132,29 @@ class Site extends RistoAppModel {
 			return null;
 		}
 	}
+
+
+    function beforeDelete($cascade = false) {
+        $this->info = $this->find('first', array(
+            'conditions' => array('Site.id' => $this->id),
+        ));
+
+    }
+
+    public function afterDelete() {
+        try {
+        $folder = new Folder(APP . 'Tenants' . DS . $this->info['Site']['alias']);
+
+            try {
+                $folder->delete();
+                return true;
+            }
+            catch (CakeException $e) {
+                return __('croogo','No se pudo borrar la carpeta por esta razón: '.$e->getMessage());
+            }
+        }
+        catch (CakeException $e) {
+            return __('croogo','No se pudo encontrar la carpeta por esta razón: '.$e->getMessage());
+        }
+    }
 }

@@ -47,8 +47,7 @@ class Site extends RistoAppModel {
 
     public function checkurl($check)
     {
-        $check['Site']['name'] = "http://$_SERVER[HTTP_HOST]/".$this->data['Site']['name'];
-
+        $check['Site']['name'] = "http://$_SERVER[HTTP_HOST]/".Inflector::slug($this->data['Site']['name']);
         return Validation::url($check['Site']['name'],true);
     }
 

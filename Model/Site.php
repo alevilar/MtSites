@@ -34,6 +34,10 @@ class Site extends RistoAppModel {
             'name_urlvalida' => array(
                 'rule' => 'checkurl',
                 'message' => 'El url resultante no sera valido, revise que contenga caracteres validos.'
+            ),
+            'characters' => array(
+                'rule' => array('custom', '/^[a-z0-9 ]*$/i'),
+                'message'  => 'Se admiten carateres alfanumericos con/sin espacios.'
             )
         ),
         'type' => array(

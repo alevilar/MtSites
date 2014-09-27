@@ -21,23 +21,23 @@ class Site extends RistoAppModel {
             'required' => array(
                 'rule' => array('notEmpty'),
                 'required' => true, 'allowEmpty' => false,
-                'message' => 'Favor de ingresar un alias.'
+                'message' => 'Favor de ingresar un nombre del comercio.'
             ),
             'unique_name' => array(
                 'rule' => array('isUnique', 'name'),
-                'message' => 'Este alias ya esta en uso.'
+                'message' => 'Este nombre del comercio ya está en uso.'
             ),
             'name_min' => array(
                 'rule' => array('minLength', '3'),
-                'message' => 'El alias debe de tener por lo menos 3 caracteres.'
+                'message' => 'El nombre del comercio debe de tener por lo menos 3 caracteres.'
             ),
             'name_urlvalida' => array(
                 'rule' => 'checkurl',
-                'message' => 'El url resultante no sera valido, revise que contenga caracteres validos.'
+                'message' => 'La url del comercio no será valido, revise que contenga caracteres válidos.'
             ),
             'characters' => array(
                 'rule' => array('custom', '/^[a-z0-9 ]*$/i'),
-                'message'  => 'Se admiten carateres alfanumericos con/sin espacios.'
+                'message'  => 'Solo se admiten caracteres alfanuméricos con/sin espacios para el nombre del comercio.'
             )
         ),
         'type' => array(

@@ -50,6 +50,11 @@ class MtSitesAuthorize extends BaseAuthorize {
  */
 	public function authorize($user, CakeRequest $request) {
 
+                //si es admin general esta autorizado
+                if($user['is_admin']) {
+                        return true;
+                }
+
 	if ( !array_key_exists('tenant', $request->params) && empty($request->params['tenant']) ){
 		// es pagina global. O sea, no estoy dentro del tenant
 		return true;

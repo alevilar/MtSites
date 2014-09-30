@@ -12,8 +12,20 @@ class Site extends RistoAppModel {
     private  $info;
 
 	public $hasAndBelongsToMany = array(
-		'Users.User'
-		);
+		'User' => array(
+			'className' => 'Users.User',
+			'joinTable' => 'sites_users',
+			'foreignKey' => 'site_id',
+			'associationForeignKey' => 'user_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => '',
+		),	
+	);
 
 
     public $validate = array(

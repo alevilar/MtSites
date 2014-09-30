@@ -149,27 +149,18 @@ class Site extends RistoAppModel {
 	}
 
 
-    function beforeDelete($cascade = false) {
-        $this->info = $this->find('first', array(
+
+    public function beforeDelete($cascade = true) {
+    	$s = $this->find('first', array(
             'conditions' => array('Site.id' => $this->id),
+            'recursive' => -1,
         ));
 
-    }
-
-    public function afterDelete() {
         try {
-        $folder = new Folder(APP . 'Tenants' . DS . $this->info['Site']['alias']);
-
-            try {
-                $folder->delete();
-                return true;
-            }
-            catch (CakeException $e) {
-                return __('croogo','No se pudo borrar la carpeta por esta razón: '.$e->getMessage());
-            }
-        }
-        catch (CakeException $e) {
-            return __('croogo','No se pudo encontrar la carpeta por esta razón: '.$e->getMessage());
+        	return Installer::deleteSite($s['Site']['alias']);	       	       
+        } catch (CakeException $e) {
+        	$this->ValidationErrors['alias'] = __('croogo','No se pudo encontrar la carpeta. %s', $e->getMessage() );
+            return false;
         }
     }
 }

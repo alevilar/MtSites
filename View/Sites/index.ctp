@@ -8,7 +8,7 @@ foreach ($sites as $s ) {
 		<?php 
 
     	
-    	echo $this->Form->postLink('X', array( 'tenant' => false, 'plugin'=>'install' ,'controller' => 'site_setup', 'action' => 'deletesite/'.$s['Site']['alias']), array(
+    	echo $this->Form->postLink('X', array( 'tenant' => false, 'plugin'=>'mt_sites' ,'controller' => 'sites', 'action' => 'delete', $s['Site']['id']), array(
 		'confirm' => 'Are you sure want to delete site named '.$s['Site']['name'].'?',
 		'class'=>'btn btn-danger btn-sm pull-right',
 		'title' => __("Eliminar")

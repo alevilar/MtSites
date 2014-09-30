@@ -50,29 +50,41 @@ class MtSitesAuthorize extends BaseAuthorize {
  */
 	public function authorize($user, CakeRequest $request) {
 
-                //si es admin general esta autorizado
-                if($user['is_admin']) {
-                        return true;
+                
+                //sesion expiro
+                if( !array_key_exists('is_admin', $user) ){
+                       return false;
                 }
 
-	if ( !array_key_exists('tenant', $request->params) && empty($request->params['tenant']) ){
-		// es pagina global. O sea, no estoy dentro del tenant
-		return true;
-	}
 
-      
-        if ( !array_key_exists('Site', $user) ) {
-        	// el usuario no tiene sitios asignados. No puede entrar a ningun lado
-        	return false;	
-        }
+                //si es admin general esta autorizado
+                if(array_key_exists('is_admin', $user) && $user['is_admin']) {
+                        return true;
+                }
+                
+                
+                if ( !array_key_exists('tenant', $request->params) && empty($request->params['tenant']) ){
+                        // es pagina global. O sea, no estoy dentro del tenant
+                       // debug( $request->params );
+                        if ( $request->params['action'] == 'display' ) {
+        		      return true;
+                        }
+        	}
+                
+
+                if ( !array_key_exists('Site', $user) ) {
+                	// el usuario no tiene sitios asignados. No puede entrar a ningun lado
+                	return false;	
+                }
 
 
-        // listar sitios del la variable de sesion del usuario actual
-        $siteAlias = Hash::extract( $user['Site'], '{n}.alias' );
-        if ( in_array( $request->params['tenant'], $siteAlias ) ) {
-        	// si el usuario tiene, entre sus sitios al sitio actual, entonces esta autorizado        	        	
-        	return true;
-        }
+
+                // listar sitios del la variable de sesion del usuario actual
+                $siteAlias = Hash::extract( $user['Site'], '{n}.alias' );
+                if ( array_key_exists('tenant', $request->params) && in_array( $request->params['tenant'], $siteAlias ) ) {
+                	// si el usuario tiene, entre sus sitios al sitio actual, entonces esta autorizado        	        	
+                	return true;
+                }
 
 
 		return false;

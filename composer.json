@@ -10,11 +10,7 @@
 			"email": "alevilar@gmail.com",
 			"homepage": "https://github.com/alevilar/MtSites"
 		}
-	],	
-	"require": {
-		"php": ">=5.3.0",
-		"composer/installers": "*"
-	},
+	],
 	"extra": {
 		"installer-name": "MtSites"
 	}

@@ -45,6 +45,10 @@ class MtSites {
 
 
 	public static function loadSessionData ( $aliasName = null ) {
+		if ( !CakeSession::check('Auth.User.id') ) {
+			return false;
+		}
+		
 		$User = ClassRegistry::init('Users.User');
 		if ( !empty($aliasName) ) {
 			CakeSession::write('MtSites.current', $aliasName);

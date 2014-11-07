@@ -90,6 +90,11 @@ class MtSites {
 				App::uses('IniReader', 'Configure');
 				Configure::config('ini', new IniReader( TENANT_PATH . DS . self::getSiteName() . DS ));				
 				Configure::load( 'settings', 'ini');
+
+
+				App::uses('CakeNumber', 'Utility');
+				CakeNumber::defaultCurrency(Configure::read('Config.currency_code'));
+
 			}	else {
 				throw new CakeException("El archivo de configuracion para el sitio ". self::getSiteName(). " no pudo ser encontrado");
 			}	

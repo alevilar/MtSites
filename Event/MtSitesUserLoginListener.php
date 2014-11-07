@@ -42,7 +42,7 @@ class MtSitesUserLoginListener implements CakeEventListener {
 		}
 
 		if ( count($sites) == 0 ) {
-			$controller->Auth->loginRedirect = array( 'plugin'=>'install', 'controller'=>'site_setup', 'action' => 'installsite');
+			$controller->Auth->loginRedirect = array( 'plugin'=>'mt_sites', 'controller'=>'sites', 'action' => 'install');
 		}
 	}
 

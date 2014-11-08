@@ -28,18 +28,18 @@
         <tr>
             <td>
                 <?php
-                $options = array(
-                    'restaurante' => 'Restaurante',
-                    'hotel' => 'Hotel',
-                    'generic' => 'Generic'
+                echo $this->Form->input('type', array(
+                        'options' => array(
+                            'restaurante' => 'Restaurante',
+                            'hotel' => 'Hotel',
+                            'generic' => 'Generic'
+                        ),
+                        'type' => 'radio',
+                        'legend' => false,
+                        'label' => false,
+                        'default' => 'restaurante',
+                    )
                 );
-
-                $attributes = array(
-                    'legend' => false,
-                    'value' => ""
-                );
-
-                echo $this->Form->radio('type', $options, $attributes);
                 ?>
             </td>
         </tr>

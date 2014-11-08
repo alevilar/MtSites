@@ -55,15 +55,14 @@ class SitesController extends RistoAppController {
 	            $ip = $this->request->clientIp();
 	        }
             $this->request->data['Site']['ip'] = $ip;
-            
+
             $this->Site->create();
             if( $this->Site->save( $this->request->data ) ) {
-                    $site_slug = $this->Site->data['Site']['alias'];
-                  
+                    $site_slug = $this->Site->field('alias');
                     // recargar datos del usuario con el nuevo sitio                    
                     MtSites::loadSessionData( $site_slug );
-                    $this->Session->setFlash(__d('install',"¡¡Bienvenido a tu Nuevo Comercio!!"), 'Risto.flash_success');
-                    $this->redirect( array('tenant'=> $site_slug) );
+                    $this->Session->setFlash(__d('install',"¡¡Bienvenido a tu Nuevo Comercio \"$site_slug\"!!"));
+                    $this->redirect( array( 'tenant' => $site_slug, 'plugin'=>'risto' ,'controller' => 'pages', 'action' => 'display', 'dashboard' ) );
             } else {
                 $this->Session->setFlash("No se pudo crear el Sitio.", 'Risto.flash_error');
             }

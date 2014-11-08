@@ -3,6 +3,9 @@
 App::uses('RistoAppModel', 'Risto.Model');
 App::uses('Validation', 'Utility');
 App::uses('Folder', 'Utility');
+App::uses('Installer', 'Install.Utility');
+
+
 /**
  * Site Model
  *
@@ -72,7 +75,41 @@ class Site extends RistoAppModel {
 	}
 
 	public function beforeSave( $options = array() ) {
-		$alias = $this->aliasConvert( $this->data['Site']['name'] );
+		$this->data['Site']['alias'] = $this->__buscarAliasName( $this->data['Site']['name'] );
+
+		return $this->__crearEstructuratenant( $this->data['Site']['alias'] );
+	}
+
+
+	/**
+	*
+	*	Crea las carpetas y la base de datos para el tenant
+	*
+	*	@param string $siteName nombre del Sitio
+	*	@return boolean true si pudo ser creado todo perfectamente
+	*
+	**/
+	private function __crearEstructuratenant ( $alias ) {
+		try {
+			Installer::createTenantsDir( $alias );
+			Installer::copyTenantSettingFile( $this->data );
+			Installer::dumpTenantDB( $this->data );
+		} catch (Exception $e) {
+			$this->log('Error creando estructura tenant '.$e->getMessage() );
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	*
+	*	Busca un nombre de alias. Si existiese, entonces agrega  un valor aleatorio para garantizar que
+	* 	sea unico
+	*	@param string $siteName nombre del Sitio
+	*	@return string
+	**/
+	private function __buscarAliasName ( $siteName ) {
+		$alias = $this->aliasConvert( $siteName );
 		$ran = null;
 
 		do{
@@ -92,8 +129,8 @@ class Site extends RistoAppModel {
 			$site = $this->findByAlias( $alias );
 			
 		} while ( !empty($site) );
-		$this->data['Site']['alias'] = $alias;
-		return true;
+		return $alias;
+
 	}
 
 	public function hasUser ( $site_alias, $user_id ) {
@@ -156,11 +193,6 @@ class Site extends RistoAppModel {
             'recursive' => -1,
         ));
 
-        try {
-        	return Installer::deleteSite($s['Site']['alias']);	       	       
-        } catch (CakeException $e) {
-        	$this->ValidationErrors['alias'] = __('croogo','No se pudo encontrar la carpeta. %s', $e->getMessage() );
-            return false;
-        }
+    	return Installer::deleteSite($s['Site']['alias']);	       	       
     }
 }

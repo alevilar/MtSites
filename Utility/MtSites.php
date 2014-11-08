@@ -33,7 +33,7 @@ class MtSites {
 
 
 	public static function loadTenantRol () {
-		if ( self::isTenant() ) {
+		if ( self::isTenant() && CakeSession::check('Auth.User.id') ) {
 			$User = ClassRegistry::init('Users.User');
 			$User->loadRole();
 			$User->contain('Rol');

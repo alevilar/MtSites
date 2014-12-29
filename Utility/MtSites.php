@@ -13,6 +13,7 @@
 App::uses('CakeSession', 'Model/Datasource');
 App::uses('Hash', 'Utility');
 App::uses('ConnectionManager', 'Model');
+App::uses('CakeRequest', 'Network');
 
 /**
  * Class used for manipulation of Tenant Sites.
@@ -64,8 +65,7 @@ class MtSites {
 
 
 	public static function  isTenant() {
-		$cur = CakeSession::read('MtSites.current');
-		return (boolean) $cur;
+		return (boolean) CakeSession::check('MtSites.current');
 	}
 
 

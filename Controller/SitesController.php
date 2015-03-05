@@ -13,7 +13,7 @@ class SitesController extends RistoAppController {
 	public function beforeFilter () {
 
 		parent::beforeFilter();
-		//$this->Auth->allow(array('index'));
+		$this->Auth->allow(array('install'));		
 	}
 
 	public function index () {

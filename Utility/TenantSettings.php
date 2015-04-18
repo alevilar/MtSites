@@ -12,11 +12,20 @@ App::uses('Hash', 'Utility');
  */
 class TenantSettings {
 
-	static function read ( ) {
-		if ( !MtSites::isTenant() ) {
-    		throw new CakeException(__("Solo se puede acceder dentro de un Tenant") );
-    	}
-    	$tenant = MtSites::getSiteName();
+
+    /**
+    *
+    *   Lee el archivo completo settings.ini del Tenant
+    *
+    *   @param String $tenant Nombre del tenant. Si nada es pasado aqui, debo estar dentro de un tenant para que funcione
+    **/
+	static function read ( $tenant = '') {
+        if (empty($tenant)) {
+    		if ( !MtSites::isTenant() ) {
+        		throw new CakeException(__("Solo se puede leer settings.ini estando dentro de un Tenant") );
+        	}
+            $tenant = MtSites::getSiteName();
+        }
 
     	$tenantSetFile = APP . 'Tenants' . DS . $tenant . DS; 
 
@@ -32,19 +41,28 @@ class TenantSettings {
 	}
 
 
-	static function write ( $data ) {
-		if ( !MtSites::isTenant() ) {
-    		throw new CakeException(__("Solo se puede acceder dentro de un Tenant") );
-    	}
-    	$tenant = MtSites::getSiteName();
+    /**
+    *
+    *   Lee el archivo completo settings.ini del Tenant
+    *
+    *   @param String $tenant Nombre del tenant. Si nada es pasado aqui, debo estar dentro de un tenant para que funcione
+    **/
+	static function write ( $data, $tenant = '' ) {
+        if (empty($tenant)) {
+    		if ( !MtSites::isTenant() ) {
+        		throw new CakeException(__("Solo se puede escribir settings.ini estando dentro de un Tenant") );
+        	}
+            $tenant = MtSites::getSiteName();
+        }
+        $tenantSetFile = APP . 'Tenants' . DS . $tenant . DS;       
+        $fileName = 'settings.ini';
 
-    	$tenantSetFile = APP . 'Tenants' . DS . $tenant . DS;     	
-    
-    	$IniSetting = new IniReader($tenantSetFile);
-    	$settings = $IniSetting->read( 'settings.ini' );
+        $IniSetting = new IniReader($tenantSetFile);
+        if (file_exists( $tenantSetFile.$fileName )) {
+            $settings = $IniSetting->read( $fileName );
+        	$data = Hash::merge($settings, $data);
+        }
 
-
-    	$newData = Hash::merge($settings, $data);
-		return $IniSetting->dump( 'settings.ini', $newData);
+		return $IniSetting->dump( 'settings.ini', $data);
 	}
 }

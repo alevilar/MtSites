@@ -16,7 +16,7 @@
 
 
                 echo $this->Form->input('name', array(
-                    'label' => __d('install', 'Nombre'),
+                    'label' => __d('install', 'Nombre de Fantasía'),
                     'placeholder' => __d('install', 'Ej: Mc Burger'),
 
                 ));               

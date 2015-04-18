@@ -64,7 +64,11 @@ class SitesController extends RistoAppController {
                     $this->Session->setFlash(__d('install',"¡Has Creado un Nuevo Comercio \"$site_slug\"!"));
                     $this->redirect( array('tenant' => $site_slug, 'plugin'=>'risto','controller' => 'pages', 'action' => 'display', 'home') );
             } else {
-                $this->Session->setFlash("No se pudo crear el Sitio.", 'Risto.flash_error');
+            	$addMes = '';
+            	if (!empty($this->Site->validationErrors['Installer'])){
+            		$addMes = " ".implode( ', ',$this->Site->validationErrors['Installer']);
+            	}
+                $this->Session->setFlash( __( "No se pudo crear el Sitio.") . $addMes , 'Risto.flash_error');
             }
         }
     }

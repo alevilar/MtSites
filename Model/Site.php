@@ -95,7 +95,9 @@ class Site extends RistoAppModel {
 			Installer::copyTenantSettingFile( $this->data );
 			Installer::dumpTenantDB( $this->data );
 		} catch (Exception $e) {
+			$this->validationErrors['Installer']['msg'] = $e->getMessage();
 			$this->log('Error creando estructura tenant '.$e->getMessage() );
+			Installer::deleteSite($alias);	  
 			return false;
 		}
 		return true;

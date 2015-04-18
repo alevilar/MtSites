@@ -115,7 +115,7 @@ class MtSites {
 
 
 				App::uses('CakeNumber', 'Utility');
-				CakeNumber::defaultCurrency(Configure::read('Config.currency_code'));
+				CakeNumber::defaultCurrency(Configure::read('Geo.currency_code'));
 
 			}	else {
 				throw new CakeException("El archivo de configuracion para el sitio ". self::getSiteName(). " no pudo ser encontrado");

@@ -24,26 +24,42 @@ class MtSites {
 
 	public static $load = false;
 
+	public static $tenant = null;
 
 
-	public static function load () {
-		self::loadConfigFiles();
-		self::loadTenantRol();
+
+
+	/**
+	*
+	*	Indica si estoy actualmente dentro de un tenant o en el sitio global
+	*
+	*	@return Boolean true si estoy en un tenant, false si no lo estoy
+	**/
+	public static function  isTenant() {
+		return (boolean) self::$tenant;
 	}
 
 
-
-	public static function loadTenantRol () {
-		if ( self::isTenant() && CakeSession::check('Auth.User.id') ) {
-			$User = ClassRegistry::init('Users.User');
-			$User->contain('Rol');
-			$User->recursive = 1;
-			$user = $User->read(null, CakeSession::read('Auth.User.id'));
-			CakeSession::write('Auth.User.Rol', $user['Rol']);
-		}
+	/**
+	 * Get site name from current URL
+	 * if is not a tenant return false
+	 * 
+	 */
+	public static function getSiteName () {
+		return self::$tenant;	
 	}
+	
 
+	
 
+	/**
+	*
+	*	basicamente lo que hace esta funcion es recuperar los Sitios del usuario
+	*	sirve para cuando cambiamos algo que implique refrescar los datos previamente cargados
+	*	en sesion cuando hice la autenticacion
+	*
+	*
+	**/
 	public static function loadSessionData ( $aliasName = null ) {
 		if ( !CakeSession::check('Auth.User.id') ) {
 			return false;
@@ -51,8 +67,8 @@ class MtSites {
 		
 		$User = ClassRegistry::init('Users.User');
 		if ( !empty($aliasName) ) {
-			CakeSession::write('MtSites.current', $aliasName);
-			self::loadTenantRol();
+			self::$tenant = $aliasName;
+			self::__loadTenantRol();
 		}
 		$User->contain('Site');
 		$user = $User->read(null, CakeSession::read('Auth.User.id'));
@@ -64,20 +80,27 @@ class MtSites {
 	}
 
 
-	public static function  isTenant() {
-		return (boolean) CakeSession::check('MtSites.current');
-	}
+
 
 
 	/**
-	 * Get site name from current URL
-	 * if is not a tenant return false
-	 * 
-	 */
-	public static function getSiteName () {
-		return CakeSession::read('MtSites.current');	
+	*
+	*	Esta funcion es llamada por MtSitesComponent
+	*	Es la encargada de inicializar la lógica para que funcione el modo TENANT
+	*
+	*	@param CakeRequest $request 
+	*
+	**/
+	public static function load ( CakeRequest $request ) {
+		self::__initTenantVar( $request );
+		self::loadConfigFiles();
+		self::__loadTenantRol();
 	}
-	
+
+
+
+
+
 
 	/**
 	 * Loads settings files from Tenant folder 
@@ -99,5 +122,44 @@ class MtSites {
 			}	
 		}
 	}
+
+
+
+	/**
+	*
+	*	Inicialiiza la variable estatica $tenant
+	*	Toma el valor del tenan del CakeRequest 
+	*
+	*	@param CakeRequest $request
+	*	@return Bool true si estoy en un tenant, false si no lo estoy
+	**/
+	private static function __initTenantVar( CakeRequest $request ) {
+		
+		if ( !array_key_exists( 'tenant', $request->params ) ) {
+        	return false;	
+        }
+
+        // si el usuario tiene, entre sus sitios al sitio actual, entonces esta autorizado        	
+		self::$tenant = $request->params['tenant'];
+
+    	return true;
+	}
+
+	/**
+	*
+	*	Carga en Session los roles aplicados para el usuario en el Tenant actual
+	*
+	*
+	**/
+	private static function __loadTenantRol () {
+		if ( self::isTenant() && CakeSession::check('Auth.User.id') ) {
+			$User = ClassRegistry::init('Users.User');
+			$User->contain('Rol');
+			$User->recursive = 1;
+			$user = $User->read(null, CakeSession::read('Auth.User.id'));
+			CakeSession::write('Auth.User.Rol', $user['Rol']);
+		}
+	}
+
 
 }

@@ -62,7 +62,7 @@ class SitesController extends RistoAppController {
                     // recargar datos del usuario con el nuevo sitio                    
                     MtSites::loadSessionData( $site_slug );
                     $this->Session->setFlash(__d('install',"¡Has Creado un Nuevo Comercio \"$site_slug\"!"));
-                    $this->redirect( array('plugin'=>'risto','controller' => 'pages', 'action' => 'display', 'home') );
+                    $this->redirect( array('tenant' => $site_slug, 'plugin'=>'risto','controller' => 'pages', 'action' => 'display', 'home') );
             } else {
                 $this->Session->setFlash("No se pudo crear el Sitio.", 'Risto.flash_error');
             }

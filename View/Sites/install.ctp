@@ -27,12 +27,14 @@
 
         <tr>
             <td>
+            	<fieldset>
+            		<legend><?php echo __('Tipo de Comercio') ?></legend>
                 <?php
                 echo $this->Form->input('type', array(
                         'options' => array(
-                            'restaurante' => 'Restaurante',
-                            'hotel' => 'Hotel',
-                            'generic' => 'Generic'
+                            'generic' => __('Genérico'),
+                            'restaurante' => __('Restaurante'),
+                            'hotel' => __('Hotel'),
                         ),
                         'type' => 'radio',
                         'legend' => false,
@@ -41,6 +43,7 @@
                     )
                 );
                 ?>
+                </fieldset>
             </td>
         </tr>
         </table>

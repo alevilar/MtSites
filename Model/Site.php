@@ -34,7 +34,7 @@ class Site extends RistoAppModel {
     public $validate = array(
         'name' => array(
             'required' => array(
-                'rule' => array('notEmpty'),
+                'rule' => array('notBlank'),
                 'required' => true, 'allowEmpty' => false,
                 'message' => 'Favor de ingresar un nombre del comercio.'
             ),
@@ -57,7 +57,7 @@ class Site extends RistoAppModel {
         ),
         'type' => array(
             'required' => array(
-                'rule' => array('notEmpty'),
+                'rule' => array('notBlank'),
                 'required' => true, 'allowEmpty' => false,
                 'message' => 'Favor de seleccionar un tipo de sitio.'
             )

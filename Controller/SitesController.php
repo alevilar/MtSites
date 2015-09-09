@@ -57,14 +57,10 @@ class SitesController extends RistoAppController {
             $this->request->data['Site']['ip'] = $ip;
             $this->Site->create();
             if( $this->Site->save( $this->request->data ) ) {
-            	debug("despues de guardar");
                     $site_slug = $this->Site->field('alias');
                     // recargar datos del usuario con el nuevo sitio                    
-            debug("antes de session");
                     MtSites::loadSessionData( $site_slug );
-                debug("antes flasg");
                     $this->Session->setFlash(__d('install',"¡Has Creado un Nuevo Comercio \"$site_slug\"!"));
-debug("antes de redirect slug: ".$site_slug);
                     $this->redirect( array('tenant' => $site_slug, 'plugin'=>'risto','controller' => 'pages', 'action' => 'display', 'home') );
             } else {
             	$addMes = '';

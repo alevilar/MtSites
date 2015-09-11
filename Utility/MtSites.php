@@ -162,4 +162,70 @@ class MtSites {
 	}
 
 
+
+	/**
+	*
+	*	@return string nombre del datasourse
+	*
+	*
+	**/
+	public static function connectDatasourceWithCurrentTenant ( $currentTenant  = null) {
+		App::uses('ConnectionManager', 'Model');
+
+
+		// listar sources actuales
+		$sources = ConnectionManager::enumConnectionObjects();
+
+		//copiar del default
+		$tenantConf = $sources['default'];	
+
+		// colocar el nombre de la base de datos
+		$tenantConf['database'] = self::getTenantDbName( $currentTenant );
+
+		// crear la conexion con la bd
+		$confName = self::getTenantDataSourceName( $currentTenant );
+
+		return ConnectionManager::create( $confName, $tenantConf );
+		
+	}
+
+	public static function getTenantDataSourceName ( $currentTenant = null ) {
+		App::uses('ConnectionManager', 'Model');
+
+		if ( $currentTenant === null ) {
+			// usar el correspondiente al tenant
+			//debug( Router::$_requests );
+			$currentTenant = MtSites::getSiteName();
+		}
+
+		if ( empty($currentTenant) ) {
+			throw new CakeException("No esta en un Tenant y esta queriendo acceder a un modelo tenant");
+		}
+
+
+		// crear la conexion con la bd
+		return  'tenant_'.$currentTenant;		
+
+	}
+
+	public static function getTenantDbName ( $currentTenant = null ) {
+		App::uses('ConnectionManager', 'Model');
+
+		if ( $currentTenant === null ) {
+			// usar el correspondiente al tenant
+			//debug( Router::$_requests );
+			$currentTenant = MtSites::getSiteName();
+		}
+
+		if ( empty($currentTenant) ) {
+			throw new CakeException("No esta en un Tenant y esta queriendo acceder a un modelo tenant");
+		}
+
+
+		$sources = ConnectionManager::enumConnectionObjects();
+
+		// colocar el nombre de la base de datos
+		return $sources['default']['database'] ."_". $currentTenant;
+	}
+
 }

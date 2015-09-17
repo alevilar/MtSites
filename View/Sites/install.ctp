@@ -32,14 +32,14 @@
                 <?php
                 echo $this->Form->input('type', array(
                         'options' => array(
-                            'generic' => __('Genérico'),
-                            'restaurante' => __('Restaurante'),
-                            'hotel' => __('Hotel'),
+                            'GenericTenant' => __('Genérico'),
+                            'RestaurantTenant' => __('Restaurante'),
+                            'HotelTenant' => __('Hotel'),
                         ),
                         'type' => 'radio',
                         'legend' => false,
                         'label' => false,
-                        'default' => 'restaurante',
+                        'default' => 'RestaurantTenant',
                     )
                 );
                 ?>

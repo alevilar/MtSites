@@ -4,7 +4,7 @@ App::uses('RistoAppModel', 'Risto.Model');
 App::uses('Validation', 'Utility');
 App::uses('Folder', 'Utility');
 App::uses('Installer', 'Install.Utility');
-
+App::uses('CakeText', 'Utility');
 
 /**
  * Site Model
@@ -123,7 +123,7 @@ class Site extends RistoAppModel {
 				$ran = true;
 			} else {
 				// is not first run
-				$ran = substr( String::uuid(), (int)rand(0, 16), (int)rand(4, 7));
+				$ran = substr( CakeText::uuid(), (int)rand(0, 16), (int)rand(4, 7));
 				debug($ran);
 				$alias = $this->aliasConvert( $alias . "_" . $ran );
 			}

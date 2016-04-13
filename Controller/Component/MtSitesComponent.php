@@ -17,7 +17,7 @@ class MtSitesComponent extends Component {
         		
                 MtSites::load( $this->request );
 
-                $urlEditConfig = array('plugin'=>'install', 'controller'=>'configurations', 'action'=>'edit');
+                $urlEditConfig = array('plugin'=>'install', 'controller'=>'configurations', 'action'=>'first_configuration_wizard');
 
                 if (  MtSites::isTenant() && !Configure::read('Site.configurado') && 
                 	  !Hash::contains($this->request->params, $urlEditConfig) // o sea, no estoy en la misma pagina de edicion

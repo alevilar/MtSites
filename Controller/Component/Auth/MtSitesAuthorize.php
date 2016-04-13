@@ -49,7 +49,6 @@ class MtSitesAuthorize extends BaseAuthorize {
  * @return bool
  */
 	public function authorize($user, CakeRequest $request) {
-
                 
                 //sesion expiro
                 if( !array_key_exists('is_admin', $user) ){

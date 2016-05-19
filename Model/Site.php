@@ -38,10 +38,6 @@ class Site extends RistoAppModel {
                 'required' => true, 'allowEmpty' => false,
                 'message' => 'Favor de ingresar un nombre del comercio.'
             ),
-            'unique_name' => array(
-                'rule' => array('isUnique', 'name'),
-                'message' => 'Este nombre del comercio ya está en uso.'
-            ),
             'name_min' => array(
                 'rule' => array('minLength', '3'),
                 'message' => 'El nombre del comercio debe de tener por lo menos 3 caracteres.'
@@ -112,7 +108,7 @@ class Site extends RistoAppModel {
 	*	@param string $siteName nombre del Sitio
 	*	@return string
 	**/
-	private function __buscarAliasName ( $siteName ) {
+	public function __buscarAliasName ( $siteName ) {
 		$alias = $this->aliasConvert( $siteName );
 		$ran = null;
 
@@ -124,7 +120,6 @@ class Site extends RistoAppModel {
 			} else {
 				// is not first run
 				$ran = substr( CakeText::uuid(), (int)rand(0, 16), (int)rand(4, 7));
-				debug($ran);
 				$alias = $this->aliasConvert( $alias . "_" . $ran );
 			}
 

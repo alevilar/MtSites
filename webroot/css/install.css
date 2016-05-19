@@ -1,0 +1,33 @@
+#alias-name-container{
+  	font-family: 'Merriweather Sans', sans-serif;
+  	text-align: center;
+  	margin: 15px auto;
+  	position: relative;
+  	display: none;
+
+}
+
+#alias-name-container .alias-name{
+	font-size: 130%;
+	font-weight: 700;
+}
+
+
+#alias-name-container #alias-url{
+
+}
+
+#alias-name-container .glyphicon{
+	font-size: 200%;
+	position: absolute;
+	left: 15px;
+	top: 25%;
+}
+
+#new-site-creator .spinner{
+	position: absolute;
+	top: 30px;
+	right: 10px;
+	height: 36px;
+	display: none;
+}

@@ -13,7 +13,7 @@ class SitesController extends RistoAppController {
 	public function beforeFilter () {
 
 		parent::beforeFilter();
-		$this->Auth->allow(array('install'));		
+		$this->Auth->allow(array('install', 'checkname'));		
 	}
 
 	public function index () {
@@ -39,7 +39,7 @@ class SitesController extends RistoAppController {
 		} else {
 			$this->Session->setFlash(__('The %s could not be deleted. Please, try again.', 'Site'));
 		}
-		return $this->redirect(array('action' => 'index'));		
+		return $this->redirect($this->referer());		
 	}
 
 
@@ -61,7 +61,9 @@ class SitesController extends RistoAppController {
                     // recargar datos del usuario con el nuevo sitio                    
                     MtSites::loadSessionData( $site_slug );
                     $this->Session->setFlash(__d('install',"¡Has Creado un Nuevo Comercio \"$site_slug\"!"));
-                    $this->redirect( array('tenant' => $site_slug, 'plugin'=>'risto','controller' => 'pages', 'action' => 'display', 'home') );
+
+                    // tengo que poner el link directo en string porque si uso el array del Routes aun no tiene definido este nuevo tenant el routes.php
+                    $this->redirect( '/' . $site_slug );
             } else {
             	$addMes = '';
             	if (!empty($this->Site->validationErrors['Installer'])){
@@ -70,6 +72,21 @@ class SitesController extends RistoAppController {
                 $this->Session->setFlash( __( "No se pudo crear el Sitio.") . $addMes , 'Risto.flash_error');
             }
         }
+    }
+
+
+    /**
+     * 
+     * 	Funcion Para chequear el nombre y el tenant que no exista
+     * devuelve 
+     * 				string Alias con un nombre unico
+     **/
+    public function checkname(){
+    	if( $this->request->is('post') ){
+    		$aliasName = $this->Site->__buscarAliasName( $this->request->data['Site']['name'] );
+    		$this->set('aliasName', $aliasName);
+    		$this->set('_serialize', array('aliasName'));
+    	}
     }
 
 

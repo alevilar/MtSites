@@ -1,9 +1,15 @@
 #mt-sites-pasos{
 	position: relative;
-	 font-family: 'Merriweather Sans', sans-serif;
+	font-family: 'Merriweather Sans', sans-serif;
+  	margin: 30px 0;
+}
 
-	 margin: 50px 0;
-  
+#mt-sites-pasos .nav{
+	padding: 10px 0;
+}
+
+.pasos-list{
+	margin: -40px 0;	
 }
 
 #mt-sites-pasos hr{
@@ -13,35 +19,27 @@
 
 
 #mt-sites-pasos .btn-siguiente{
-	position: absolute;
-	top: -5px;
-	background: #ccc;
-	color: black;
-	width: 10%;
-	right: 0;
 }
 
 #mt-sites-pasos .title{
-	position: absolute;
-	top: -5px;
 	background: #ccc;
 	color: black;
-	width: 10%;
 	border-radius: 50px;
 	font-size: 20px;
 	font-family: 'Merriweather Sans', sans-serif;
-	  font-weight: 700;
-	  color: rgba(0, 0, 0, 0.7);
-	  text-align: center;
-	  padding: 15px;
+	font-weight: 700;
+	color: rgba(0, 0, 0, 0.7);
+	text-align: center;
+	padding: 15px;
+	margin-top: -10px;
 }
 
 
 
 
 #mt-sites-pasos .paso{
-	position: absolute;
-	top: -25px;
+	margin-top: -25px;
+	text-align: center;
 }
 
 
@@ -71,15 +69,6 @@
 
 
 
-#mt-sites-pasos .paso-1{
-	left: 30%;
-}
-
-#mt-sites-pasos .paso-2{
-	left: 60%;
-}
-
-
 
 .paso-1.paso-current-1 .numero{
 	background: #244289 !important;
@@ -94,3 +83,40 @@
 
 	visibility: visible !important;
 }
+
+
+.paso-2.paso-current-2 .numero{
+	background: #244289 !important;
+	color: white !important;
+}
+
+.paso-2.paso-current-2 .descripcion{
+	color: #244289 !important;
+}
+
+.paso-2.paso-current-2 .arrow{
+
+	visibility: visible !important;
+}
+
+
+.paso-3.paso-current-3 .numero{
+	background: #244289 !important;
+	color: white !important;
+}
+
+.paso-3.paso-current-3 .descripcion{
+	color: #244289 !important;
+}
+
+.paso-3.paso-current-3 .arrow{
+
+	visibility: visible !important;
+}
+
+
+.title.paso-current-4{
+	background: #244289 !important;
+	color: white !important;
+}
+

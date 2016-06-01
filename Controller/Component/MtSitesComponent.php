@@ -1,6 +1,5 @@
 <?php
 
-App::uses('MtSites', 'MtSites.Utility');
 
 /**
  * Authentication control component class
@@ -13,6 +12,9 @@ App::uses('MtSites', 'MtSites.Utility');
 class MtSitesComponent extends Component {
 
 	public function initialize(Controller $controller) {
+
+                App::uses('MtSites', 'MtSites.Utility');
+
 		$this->request = $controller->request;		
         		
                 MtSites::load( $this->request );

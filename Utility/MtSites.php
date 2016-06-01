@@ -64,7 +64,13 @@ class MtSites {
 		if ( !CakeSession::check('Auth.User.id') ) {
 			return false;
 		}
-		
+
+		if ( CakeSession::check('Auth.User.pin')) {
+
+			// si el usuario es GenericUser, entonces no hacer nada
+			return;
+		}
+
 		$User = ClassRegistry::init('Users.User');
 		if ( !empty($aliasName) ) {
 			self::$tenant = $aliasName;
@@ -134,7 +140,6 @@ class MtSites {
 	*	@return Bool true si estoy en un tenant, false si no lo estoy
 	**/
 	private static function __initTenantVar( CakeRequest $request ) {
-		
 		if ( !array_key_exists( 'tenant', $request->params ) ) {
         	return false;	
         }
@@ -152,6 +157,11 @@ class MtSites {
 	*
 	**/
 	private static function __loadTenantRol () {
+		if ( CakeSession::check('Auth.User.pin') ) {
+			// si el usuario es del tipo GenericUser, no cargar nada
+			return;
+		}
+
 		if ( self::isTenant() && CakeSession::check('Auth.User.id') ) {
 			$User = ClassRegistry::init('Users.User');
 			$User->contain('Rol');

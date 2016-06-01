@@ -49,11 +49,12 @@ class MtSitesAuthorize extends BaseAuthorize {
  * @return bool
  */
 	public function authorize($user, CakeRequest $request) {
-                
+
                 //sesion expiro
-                if( !array_key_exists('is_admin', $user) ){
+                if( empty( $user['id'] ) ){
                        return false;
                 }
+
 
 
                 //si es admin general esta autorizado
@@ -66,10 +67,10 @@ class MtSitesAuthorize extends BaseAuthorize {
                         // es pagina global. O sea, no estoy dentro del tenant
                        // debug( $request->params );
                         if ( $request->params['action'] == 'display' ) {
-        		      return true;
+                      return true;
                         }
-        	}
-                
+            }
+               
 
                 if ( !array_key_exists('Site', $user) ) {
                 	// el usuario no tiene sitios asignados. No puede entrar a ningun lado

@@ -167,7 +167,9 @@ class MtSites {
 			$User->contain('Rol');
 			$User->recursive = 1;
 			$user = $User->read(null, CakeSession::read('Auth.User.id'));
-			CakeSession::write('Auth.User.Rol', $user['Rol']);
+			if ( !empty($user['Rol']) ) {
+				CakeSession::write('Auth.User.Rol', $user['Rol']);
+			}
 		}
 	}
 

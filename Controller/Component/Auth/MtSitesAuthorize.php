@@ -55,8 +55,6 @@ class MtSitesAuthorize extends BaseAuthorize {
                        return false;
                 }
 
-
-
                 //si es admin general esta autorizado
                 if(array_key_exists('is_admin', $user) && $user['is_admin']) {
                         return true;
@@ -73,8 +71,8 @@ class MtSitesAuthorize extends BaseAuthorize {
                
 
                 if ( !array_key_exists('Site', $user) ) {
-                	// el usuario no tiene sitios asignados. No puede entrar a ningun lado
-                	return false;	
+                    // el usuario no tiene sitios asignados. No puede entrar a ningun lado
+                    return false;   
                 }
 
 
@@ -82,8 +80,14 @@ class MtSitesAuthorize extends BaseAuthorize {
                 // listar sitios del la variable de sesion del usuario actual
                 $siteAlias = Hash::extract( $user['Site'], '{n}.alias' );
                 if ( array_key_exists('tenant', $request->params) && in_array( $request->params['tenant'], $siteAlias ) ) {
-                	// si el usuario tiene, entre sus sitios al sitio actual, entonces esta autorizado        	        	
-                	return true;
+                    // si el usuario tiene, entre sus sitios al sitio actual, entonces esta autorizado                      
+                    return true;
+                }
+
+                // acceso a la pagina de edicion propia de cada usuario registrado
+                if (  strtolower($request->params['controller']) ==  "users" 
+                        && strtolower($request->params['action']) == 'my_edit' ){
+                      return true;
                 }
 
 

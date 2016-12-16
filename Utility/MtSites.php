@@ -14,6 +14,7 @@ App::uses('CakeSession', 'Model/Datasource');
 App::uses('Hash', 'Utility');
 App::uses('ConnectionManager', 'Model');
 App::uses('CakeRequest', 'Network');
+App::uses('ClassRegistry','Utility');
 
 /**
  * Class used for manipulation of Tenant Sites.

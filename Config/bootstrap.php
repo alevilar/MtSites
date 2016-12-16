@@ -16,3 +16,6 @@ App::uses('ConnectionManager', 'Model');
 
 
 CakeEventManager::instance()->attach( new MtSitesUserLoginListener );
+
+
+MtSites::loadSessionData();

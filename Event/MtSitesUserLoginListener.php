@@ -31,8 +31,8 @@ class MtSitesUserLoginListener implements CakeEventListener {
 
 	public function onLogin( $event ) {
 		$controller = $event->subject();
+		MtSites::loadSessionData();
 		$user = $controller->Auth->user();
-		
 		$sites = $user['Site'];
 
 		if ( count($sites) == 1 ) {

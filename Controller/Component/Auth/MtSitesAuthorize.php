@@ -92,9 +92,12 @@ public $name = "MtSitesAuthorize";
                     return true;
                 }
 
-                // acceso a la pagina de edicion propia de cada usuario registrado
-                if (  strtolower($request->params['controller']) ==  "users" 
-                        && strtolower($request->params['action']) == 'my_edit' ){
+                // acceso a la pagina de edicion y de cambio de contraseña propia de cada usuario registrado y logueado. 
+                if (  (strtolower($request->params['controller']) ==  "users" 
+                        && strtolower($request->params['action']) == 'my_edit') 
+                    or (strtolower($request->params['controller']) ==  "users" 
+                        && strtolower($request->params['action']) == 'change_password') ){
+                      //Si el controlador es users y el action es my_edit o change_password te dejara entrar siempre que estes logeado.
                       return true;
                 }
 

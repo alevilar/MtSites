@@ -13,8 +13,10 @@ class SitesController extends RistoAppController {
 	public function beforeFilter () {
 
 		parent::beforeFilter();
-		$this->Auth->allow(array('install', 'checkname'));		
+		$this->Auth->allow(array('checkname'));		
 	}
+
+    
 
 	public function index () {
 		$user = $this->Auth->user();
@@ -48,7 +50,6 @@ class SitesController extends RistoAppController {
     {
         if( $this->request->is('post') )
         {
-            $this->request->data['User']['id'] = $this->Session->read('Auth.User.id');
 
             $ip = env('HTTP_X_FORWARDED_FOR');
 	        if ( empty($ip) ) {
@@ -58,12 +59,19 @@ class SitesController extends RistoAppController {
             $this->Site->create();
             if( $this->Site->save( $this->request->data ) ) {
                     $site_slug = $this->Site->field('alias');
-                    // recargar datos del usuario con el nuevo sitio                    
+                    // recargar datos del usuario con el nuevo sitio
                     MtSites::loadSessionData( $site_slug );
                     $this->Session->setFlash(__d('install',"¡Has Creado un Nuevo Comercio \"$site_slug\"!"));
 
                     // tengo que poner el link directo en string porque si uso el array del Routes aun no tiene definido este nuevo tenant el routes.php
-                    $this->redirect( '/' . $site_slug );
+                    /*
+                    $this->redirect( array(
+                            'tenant'=>$site_slug,
+                            'plugin' => 'install',
+                            'controller' => 'configurations', 
+                            'action' => 'first_configuration_wizard', 
+                        ) );
+                        */
             } else {
             	$addMes = '';
             	if (!empty($this->Site->validationErrors['Installer'])){

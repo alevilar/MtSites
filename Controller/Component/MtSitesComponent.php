@@ -1,5 +1,6 @@
 <?php
 
+App::uses('MtSites', 'MtSites.Utility');
 
 /**
  * Authentication control component class
@@ -11,21 +12,12 @@
  */
 class MtSitesComponent extends Component {
 
-	public function initialize(Controller $controller) {
+        public function initialize(Controller $controller) {
 
-                App::uses('MtSites', 'MtSites.Utility');
 
 		$this->request = $controller->request;		
         		
                 MtSites::load( $this->request );
-
-                $urlEditConfig = array('plugin'=>'install', 'controller'=>'configurations', 'action'=>'first_configuration_wizard');
-
-                if (  MtSites::isTenant() && !Configure::read('Site.configurado') && 
-                	  !Hash::contains($this->request->params, $urlEditConfig) // o sea, no estoy en la misma pagina de edicion
-                	){
-                	$controller->redirect($urlEditConfig );
-                }
 
                 return true;
 	}

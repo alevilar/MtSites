@@ -38,7 +38,7 @@ App::uses('Hash', 'Utility');
  */
 class MtSitesAuthorize extends BaseAuthorize {
 
-
+public $name = "MtSitesAuthorize";
 
 
 /**
@@ -49,7 +49,6 @@ class MtSitesAuthorize extends BaseAuthorize {
  * @return bool
  */
 	public function authorize($user, CakeRequest $request) {
-
                 //sesion expiro
                 if( empty( $user['id'] ) ){
                        return false;
@@ -59,7 +58,16 @@ class MtSitesAuthorize extends BaseAuthorize {
                 if(array_key_exists('is_admin', $user) && $user['is_admin']) {
                         return true;
                 }
-                
+
+
+                // si es pantalla de instalacion de nuevo tenant
+                if ( $request->params['plugin'] == 'mt_sites' && $request->params['controller'] == 'sites' && $request->params['action'] == 'install'){
+                    return true;
+                }
+
+                if ( $request->params['plugin'] == 'install' && $request->params['controller'] == 'configurations' && $request->params['action'] == 'first_configuration_wizard'){
+                    return true;
+                }
                 
                 if ( !array_key_exists('tenant', $request->params) && empty($request->params['tenant']) ){
                         // es pagina global. O sea, no estoy dentro del tenant

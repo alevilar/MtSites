@@ -9,6 +9,7 @@
     <?php
 
     echo $this->Form->hidden('timezone', array('id'=>'timezone'));
+    echo $this->Form->hidden('User.id', array('value'=>$this->Session->read("Auth.User.id")));
 
     echo $this->Form->input('name', array(
         'label' => __d('install', 'Introducir el Nombre'),

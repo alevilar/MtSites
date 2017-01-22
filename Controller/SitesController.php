@@ -64,14 +64,7 @@ class SitesController extends RistoAppController {
                     $this->Session->setFlash(__d('install',"¡Has Creado un Nuevo Comercio \"$site_slug\"!"));
 
                     // tengo que poner el link directo en string porque si uso el array del Routes aun no tiene definido este nuevo tenant el routes.php
-                    /*
-                    $this->redirect( array(
-                            'tenant'=>$site_slug,
-                            'plugin' => 'install',
-                            'controller' => 'configurations', 
-                            'action' => 'first_configuration_wizard', 
-                        ) );
-                        */
+                    $this->redirect( "/$site_slug/install/configurations/first_configuration_wizard" );
             } else {
             	$addMes = '';
             	if (!empty($this->Site->validationErrors['Installer'])){

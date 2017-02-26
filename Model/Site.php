@@ -73,9 +73,13 @@ class Site extends RistoAppModel {
 	}
 
 	public function beforeSave( $options = array() ) {
-		$this->data['Site']['alias'] = $this->__buscarAliasName( $this->data['Site']['name'] );
 
-		return $this->__crearEstructuratenant( $this->data['Site']['alias'] );
+		$ret = true;
+		if ( empty( $this->id) && empty($this->data['Site']['id'] ) ) {
+			$this->data['Site']['alias'] = $this->__buscarAliasName( $this->data['Site']['name'] );
+			$ret = $this->__crearEstructuratenant( $this->data['Site']['alias'] );
+		}
+		return $ret;
 	}
 
 

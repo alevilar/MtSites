@@ -198,4 +198,25 @@ class Site extends RistoAppModel {
 
     	return Installer::deleteSite($s['Site']['alias']);	       	       
     }
+
+    /**
+     * Busca todos los usuarios del comercio, primero busca todos los 
+     * registros con el id de ese sitio y finalmente extrae todas 
+     * las ids de los usuarios.
+     *
+     * @param integer $id = id del sitio (comercio).
+     * @return array con las ids de los usuarios
+     */
+
+    public function buscarUsersComercio($id) {
+
+    	$site = $this->find('all', array('conditions' => array('id' => $id), array('contain' => 'SitesUser') ));
+    	foreach ($site as $s) {
+    	  foreach($s['User'] as $user) {
+           $user_id[] = $user['id'];
+          }
+    	}
+
+    	return $user_id;
+    }
 }

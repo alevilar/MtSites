@@ -209,7 +209,7 @@ class Site extends RistoAppModel {
 
     	$site = $this->find('first', array(
     		'contain' => array(
-    			'User'
+    			'User' => array('conditions' => array('is_admin' => 0))
 			),
     		'conditions' => array(
     			'Site.alias' => $currentSiteAlias

@@ -11,7 +11,6 @@ if (!defined('TENANT_PATH') ) {
 App::uses('MtSites', 'MtSites.Utility');
 App::uses('MtSitesUserLoginListener', 'MtSites.Event');
 App::uses('CakeEventManager', 'Event');
-App::uses('ConnectionManager', 'Model');
 
 
 MtSites::loadSessionData();
